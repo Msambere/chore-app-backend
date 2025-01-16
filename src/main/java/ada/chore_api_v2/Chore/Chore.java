@@ -1,6 +1,10 @@
 package ada.chore_api_v2.Chore;
 
+import ada.chore_api_v2.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name="chores")
@@ -27,14 +31,22 @@ public class Chore {
     @Column(name = "difficulty", nullable = false)
     private int difficulty;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private User user;
+
     public Chore() {}
-    public Chore(String title, String description, String recurrence, String category, int duration, int difficulty) {
+
+    public Chore(String title, String description, String recurrence, String category, int duration, int difficulty, User user) {
         this.title = title;
         this.description = description;
         this.recurrence = recurrence;
         this.category = category;
         this.duration = duration;
         this.difficulty = difficulty;
+        this.user = user;
     }
 
     public int getId() {
@@ -87,5 +99,13 @@ public class Chore {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
