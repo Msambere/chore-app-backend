@@ -1,6 +1,5 @@
 package ada.chore_api_v2.User;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
