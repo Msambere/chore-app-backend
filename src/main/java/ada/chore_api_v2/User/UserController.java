@@ -23,16 +23,16 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<Iterable<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
     }
 }

@@ -37,6 +37,6 @@ public class UserService {
             userRepository.delete(user.get());
             return "User deleted";
         }
-        return null;
+        return "User not found";
     }
 }
