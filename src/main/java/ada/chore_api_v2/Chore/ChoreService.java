@@ -1,5 +1,7 @@
 package ada.chore_api_v2.Chore;
 
+import ada.chore_api_v2.User.User;
+import ada.chore_api_v2.User.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -7,17 +9,28 @@ import java.util.Optional;
 @Service
 public class ChoreService {
     private final ChoreRepository choreRepository;
+    private final UserRepository userRepository;
 
-    public ChoreService(ChoreRepository choreRepository) {
+    public ChoreService(ChoreRepository choreRepository, UserRepository userRepository) {
         this.choreRepository = choreRepository;
+        this.userRepository = userRepository;
     }
 
-    public Chore createChore(Chore chore) {
-        return choreRepository.save(chore);
-    }
+
+
 
     public Iterable<Chore> getAllChores() {
         return choreRepository.findAll();
+    }
+
+    public String createChore(int userId, Chore choreRequest) {
+         Optional<User> foundUser =userRepository.findById(userId);
+         if(foundUser.isPresent()) {
+            choreRequest.setUser(foundUser.get());
+            choreRepository.save(choreRequest);
+            return "Chore successfully created";
+         }
+        return "User not found";
     }
 
     public Chore getChoreById(long id) {

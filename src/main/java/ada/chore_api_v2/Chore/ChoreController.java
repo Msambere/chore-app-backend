@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/chores")
+//@RequestMapping("/chores")
 public class ChoreController {
     private final ChoreService choreService;
 
@@ -13,22 +13,22 @@ public class ChoreController {
         this.choreService = choreService;
     }
 
-    @PostMapping()
-    public ResponseEntity<Chore> addChore(@RequestBody Chore chore) {
-        return new ResponseEntity<>(choreService.createChore(chore), HttpStatus.CREATED);
+    @PostMapping("/users/{userId}/chores")
+    public String addChore(@PathVariable int userId, @RequestBody Chore choreRequest) {
+        return choreService.createChore(userId,choreRequest);
     }
 
-    @GetMapping()
+    @GetMapping("/chores")
     public ResponseEntity<Iterable<Chore>> getAllChores() {
         return new ResponseEntity<>(choreService.getAllChores(), HttpStatus.OK);
     }
 
-    @GetMapping("/{choreId}")
+    @GetMapping("/chores/{choreId}")
     public ResponseEntity<Chore> getChoreById(@PathVariable Long choreId) {
         return new ResponseEntity<>(choreService.getChoreById(choreId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{choreId}")
+    @DeleteMapping("/chores/{choreId}")
     public ResponseEntity<String> deleteChore(@PathVariable int choreId) {
         return new ResponseEntity<>(choreService.deleteChoreById(choreId), HttpStatus.OK);
     }
