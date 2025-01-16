@@ -10,18 +10,23 @@ public class User {
     private int id;
 
 
-    @Column(name="name")
-    private String name;
 
-    @Column(name = "username")
+    @Column(name="firstName", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name="email")
+    @Column(name="email", nullable = false)
 
     private String email;
 
-    public User(String name, String username, String email) {
-        this.name = name;
+    public User(String firstName, String username, String email, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.email = email;
     }
@@ -31,9 +36,20 @@ public class User {
     public int getId() {
         return id;
     }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public String getName() {
-        return name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -44,9 +60,6 @@ public class User {
         return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void setUsername(String username) {
         this.username = username;
