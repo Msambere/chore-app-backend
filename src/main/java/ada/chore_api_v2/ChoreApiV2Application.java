@@ -9,5 +9,4 @@ public class ChoreApiV2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(ChoreApiV2Application.class, args);
 	}
-
 }
