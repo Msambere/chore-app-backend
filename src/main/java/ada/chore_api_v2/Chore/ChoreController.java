@@ -18,6 +18,7 @@ public class ChoreController {
     @PostMapping("/users/{userId}/chores")
     public ResponseEntity<ChoreResponseBody> addChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         ChoreResponseBody newChore = choreService.createChore(userId,choreRequest);

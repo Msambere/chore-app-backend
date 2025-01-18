@@ -11,7 +11,6 @@ public class ChoreResponseBody {
     public Integer difficulty;
     public Integer userId;
 
-
     public ChoreResponseBody(Chore chore) {
         this.title = chore.getTitle();
         this.description = chore.getDescription();
@@ -20,6 +19,5 @@ public class ChoreResponseBody {
         this.duration = chore.getDuration();
         this.difficulty = chore.getDifficulty();
         this.userId = chore.getUser().getId();
-
     }
 }

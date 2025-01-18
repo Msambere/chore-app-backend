@@ -11,17 +11,16 @@ public class UserResponseBody {
     public String lastName;
     public String email;
     public String username;
-    public Set<ChoreResponseBody> chores; // Change to choreResponseBody?
+    public Set<ChoreResponseBody> chores;
 
 
 
     public UserResponseBody(User user) {
-            this.firstName = user.getFirstName();
-            this.lastName = user.getLastName();
-            this.email = user.getEmail();
-            this.username = user.getUsername();
-            this.chores = user.getChoreResponses();
-            // Add logic to take in chores and convert them to responsebody
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.chores = user.getChoreResponses();
     }
 
 }
