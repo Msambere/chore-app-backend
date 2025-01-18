@@ -1,9 +1,12 @@
 package ada.chore_api_v2.User;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.List;
 
 @RestController
@@ -16,8 +19,16 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user, BindingResult result) {
+        System.out.println(result.toString());
+        if(result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
+        }
+        User newUser = userService.createUser(user);
+        if (newUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @GetMapping()

@@ -14,9 +14,13 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        System.out.println(user.getUsername());
+        User foundUser = userRepository.findByUsername(user.getUsername());
+        if (foundUser != null) {
+            return null;
+        }
         return userRepository.save(user);
     }
+
 
     public Iterable<User> getAllUsers(){
         return userRepository.findAll();
