@@ -3,6 +3,11 @@ package ada.chore_api_v2.Chore;
 import ada.chore_api_v2.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,27 +19,34 @@ public class Chore {
     private int id;
 
     @Column(name="title", nullable = false, unique = true)
+    @NotBlank
     private String title;
 
     @Column(name = "description", nullable = false)
+    @NotBlank
     private String description;
 
     @Column(name = "recurrence", nullable = false)
+    @NotBlank
     private String recurrence;
 
     @Column(name="category", nullable = false)
+    @NotBlank
     private String category;
 
     @Column(name = "duration", nullable = false)
     private int duration;
 
     @Column(name = "difficulty", nullable = false)
+    @Min(1)
+    @Max(3)
     private int difficulty;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
+    @Valid
     private User user;
 
     public Chore() {}

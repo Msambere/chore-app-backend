@@ -1,7 +1,9 @@
 package ada.chore_api_v2.Chore;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +16,15 @@ public class ChoreController {
     }
 
     @PostMapping("/users/{userId}/chores")
-    public String addChore(@PathVariable int userId, @RequestBody Chore choreRequest) {
-        return choreService.createChore(userId,choreRequest);
+    public ResponseEntity<ChoreResponseBody> addChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        ChoreResponseBody newChore = choreService.createChore(userId,choreRequest);
+        if(newChore == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<ChoreResponseBody>(newChore, HttpStatus.CREATED);
     }
 
     @GetMapping("/chores")

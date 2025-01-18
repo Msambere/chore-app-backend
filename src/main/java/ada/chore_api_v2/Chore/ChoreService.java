@@ -16,21 +16,17 @@ public class ChoreService {
         this.userRepository = userRepository;
     }
 
-
-
-
     public Iterable<Chore> getAllChores() {
         return choreRepository.findAll();
     }
 
-    public String createChore(int userId, Chore choreRequest) {
+    public  ChoreResponseBody createChore(int userId, Chore choreRequest) {
          Optional<User> foundUser =userRepository.findById(userId);
          if(foundUser.isPresent()) {
             choreRequest.setUser(foundUser.get());
-            choreRepository.save(choreRequest);
-            return "Chore successfully created";
+            return new ChoreResponseBody(choreRepository.save(choreRequest));
          }
-        return "User not found";
+        return null;
     }
 
     public Chore getChoreById(long id) {
