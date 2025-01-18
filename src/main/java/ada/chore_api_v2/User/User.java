@@ -3,6 +3,8 @@ package ada.chore_api_v2.User;
 import ada.chore_api_v2.Chore.Chore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,15 +17,19 @@ public class User {
     private int id;
 
     @Column(name="firstName", nullable = false)
+    @NotBlank
     private String firstName;
 
     @Column(name = "lastName", nullable = false)
+    @NotBlank
     private String lastName;
 
     @Column(name = "username", unique = true, nullable = false)
+    @NotBlank
     private String username;
 
     @Column(name="email", nullable = false)
+    @Email
     private String email;
 
     @OneToMany(mappedBy ="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
