@@ -40,6 +40,18 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
 
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserResponseBody> updateUser(@PathVariable int userId, @RequestBody User userRequest, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
+        }
+        UserResponseBody updatedUser = userService.updateUser(userRequest, userId);
+        if (updatedUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<UserResponseBody>(updatedUser, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
         return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);

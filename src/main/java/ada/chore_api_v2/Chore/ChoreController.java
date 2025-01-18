@@ -34,8 +34,22 @@ public class ChoreController {
     }
 
     @GetMapping("/chores/{choreId}")
-    public ResponseEntity<Chore> getChoreById(@PathVariable Long choreId) {
+    public ResponseEntity<Chore> getChoreById(@PathVariable Integer choreId) {
         return new ResponseEntity<>(choreService.getChoreById(choreId), HttpStatus.OK);
+    }
+
+    @PatchMapping("chores/{choreId}")
+    public ResponseEntity<ChoreResponseBody> updateChore(@PathVariable Integer choreId, @RequestBody Chore choreRequest, BindingResult result) {
+        if(result.hasErrors()) {
+            System.out.println(result.getAllErrors());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        ChoreResponseBody updatedChore = choreService.updateChore( choreId, choreRequest);
+        if(updatedChore == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<ChoreResponseBody>(updatedChore, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/chores/{choreId}")

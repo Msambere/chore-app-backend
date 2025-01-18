@@ -29,7 +29,7 @@ public class ChoreService {
         return null;
     }
 
-    public Chore getChoreById(long id) {
+    public Chore getChoreById(Integer id) {
         Optional<Chore> chore = choreRepository.findById(id);
         if (chore.isPresent()) {
             return chore.get();
@@ -37,8 +37,35 @@ public class ChoreService {
         return null;
     }
 
-    public String deleteChoreById(int id) {
-        Optional<Chore> chore = choreRepository.findById((long) id);
+    public ChoreResponseBody updateChore(Integer id, Chore choreRequest) {
+        Optional<Chore> chore = choreRepository.findById(id);
+        if(chore.isPresent()) {
+            Chore updatedChore = chore.get();
+            if (choreRequest.getTitle() != null) {
+                updatedChore.setTitle(choreRequest.getTitle());
+            }
+            if (choreRequest.getDescription() != null) {
+                updatedChore.setDescription(choreRequest.getDescription());
+            }
+            if (choreRequest.getDifficulty() != null){
+                updatedChore.setDifficulty(choreRequest.getDifficulty());
+            }
+            if (choreRequest.getDuration() != null){
+                updatedChore.setDuration(choreRequest.getDuration());
+            }
+            if (choreRequest.getRecurrence() != null) {
+                updatedChore.setRecurrence(choreRequest.getRecurrence());
+            }
+            if (choreRequest.getCategory() != null) {
+                updatedChore.setCategory(choreRequest.getCategory());
+            }
+            return new ChoreResponseBody(choreRepository.save(updatedChore));
+        }
+        return null;
+    }
+
+    public String deleteChoreById(Integer id) {
+        Optional<Chore> chore = choreRepository.findById((id));
         if (chore.isPresent()) {
             choreRepository.delete(chore.get());
             return "Chore deleted";
