@@ -11,12 +11,14 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.Duration;
+
 @Entity
 @Table(name="chores")
 public class Chore {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name="title", nullable = false, unique = true)
     @NotBlank
@@ -35,12 +37,12 @@ public class Chore {
     private String category;
 
     @Column(name = "duration", nullable = false)
-    private int duration;
+    private Duration duration;
 
     @Column(name = "difficulty", nullable = false)
     @Min(1)
     @Max(3)
-    private int difficulty;
+    private Integer difficulty;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -51,7 +53,7 @@ public class Chore {
 
     public Chore() {}
 
-    public Chore(String title, String description, String recurrence, String category, int duration, int difficulty, User user) {
+    public Chore(String title, String description, String recurrence, String category, Duration duration, Integer difficulty, User user) {
         this.title = title;
         this.description = description;
         this.recurrence = recurrence;
@@ -97,19 +99,19 @@ public class Chore {
         this.category = category;
     }
 
-    public int getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
-    public int getDifficulty() {
+    public Integer getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(int difficulty) {
+    public void setDifficulty(Integer difficulty) {
         this.difficulty = difficulty;
     }
 

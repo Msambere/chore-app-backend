@@ -2,12 +2,14 @@ package ada.chore_api_v2.Chore;
 
 import ada.chore_api_v2.User.User;
 
+import java.time.Duration;
+
 public class ChoreResponseBody {
     public String title;
     public String description;
     public String recurrence;
     public String category;
-    public Integer duration;
+    public Duration duration;
     public Integer difficulty;
     public Integer userId;
 
