@@ -1,59 +1,71 @@
 package ada.chore_api_v2.User;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
-//@Data // Lombok annotation to generate getters, setters, equals, hashCode, and toString
-//@NoArgsConstructor // Lombok annotation for a default constructor
-//@AllArgsConstructor // Lombok annotation for an all-args constructor
-@Table(name="USERS")
+@Table(name="users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue
+    private int id;
 
-    @Column(nullable = false)
-    private String name;
 
-    @Column(unique = true, nullable = false)
+
+    @Column(name="firstName", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
+    @Column(name="email", nullable = false)
+
     private String email;
 
-    // Default constructor
-    public User() {}
-
-    // Parameterized constructor
-    public User(Integer id, String name, String email) {
-        this.id = id;
-        this.name = name;
+    public User(String firstName, String username, String email, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
         this.email = email;
     }
 
-    // Getters and setters
+    public User() {}
+
     public int getId() {
         return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getName() {
-        return name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 }
+
