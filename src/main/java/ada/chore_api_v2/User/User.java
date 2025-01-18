@@ -1,6 +1,7 @@
 package ada.chore_api_v2.User;
 
 import ada.chore_api_v2.Chore.Chore;
+import ada.chore_api_v2.Chore.ChoreResponseBody;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -87,6 +88,14 @@ public class User {
 
     public void addChore(Chore chore) {
         this.chores.add(chore);
+    }
+
+    public Set<ChoreResponseBody> getChoreResponses() {
+        Set<ChoreResponseBody> choreResponses= new HashSet<>();
+        for(Chore chore : this.chores) {
+            choreResponses.add(new ChoreResponseBody(chore));
+        }
+        return choreResponses;
     }
 }
 

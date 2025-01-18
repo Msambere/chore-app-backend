@@ -19,16 +19,15 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user, BindingResult result) {
-        System.out.println(result.toString());
+    public ResponseEntity<UserResponseBody> createUser(@Valid @RequestBody User user, BindingResult result) {
         if(result.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
         }
-        User newUser = userService.createUser(user);
+        UserResponseBody newUser = userService.createUser(user);
         if (newUser == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<UserResponseBody>(newUser, HttpStatus.CREATED);
     }
 
     @GetMapping()

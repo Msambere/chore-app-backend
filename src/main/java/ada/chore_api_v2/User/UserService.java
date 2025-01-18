@@ -13,12 +13,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
+    public UserResponseBody createUser(User user) {
         User foundUser = userRepository.findByUsername(user.getUsername());
         if (foundUser != null) {
             return null;
         }
-        return userRepository.save(user);
+        userRepository.save(user);
+        UserResponseBody response = new UserResponseBody(userRepository.save(user));
+        return response;
     }
 
 
