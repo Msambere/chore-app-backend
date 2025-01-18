@@ -3,6 +3,7 @@ package ada.chore_api_v2.Mission;
 import ada.chore_api_v2.User.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.time.Duration;
 
 @Entity
 @Table(name = "missions")
@@ -29,19 +30,19 @@ public class Mission {
     private int totalUnredeemedPoints;
 
     @Column(name = "time_elapsed", nullable = true)
-    private int timeElapsed; // Or a suitable data type for interval
+    private Duration timeElapsed;
 
     public Mission() {
         this.dateStarted = LocalDateTime.now();
         this.totalUnredeemedPoints = 0;
     }
 
-    public Mission(User user, String recurrence, String category, LocalDateTime dateStarted, int totalUnredeemedPoints, int timeElapsed) {
+    public Mission(User user, String recurrence, String category, LocalDateTime dateStarted, int totalUnredeemedPoints, Duration timeElapsed) {
         this.user = user;
         this.recurrence = recurrence;
         this.category = category;
-        this.dateStarted = LocalDateTime.now();
-        this.totalUnredeemedPoints = 0;
+        this.dateStarted = dateStarted;
+        this.totalUnredeemedPoints = totalUnredeemedPoints;
         this.timeElapsed = timeElapsed;
     }
 
@@ -90,11 +91,11 @@ public class Mission {
         this.totalUnredeemedPoints = totalUnredeemedPoints;
     }
 
-    public int getTimeElapsed() {
+    public Duration getTimeElapsed() {
         return timeElapsed;
     }
 
-    public void setTimeElapsed(int timeElapsed) {
+    public void setTimeElapsed(Duration timeElapsed) {
         this.timeElapsed = timeElapsed;
     }
 }

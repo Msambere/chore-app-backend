@@ -1,6 +1,7 @@
 package ada.chore_api_v2.User;
-
+import ada.chore_api_v2.Mission.Mission;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -8,8 +9,6 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
-
-
 
     @Column(name="firstName", nullable = false)
     private String firstName;
@@ -21,8 +20,10 @@ public class User {
     private String username;
 
     @Column(name="email", nullable = false)
-
     private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mission> missions;
 
     public User(String firstName, String username, String email, String lastName) {
         this.firstName = firstName;
@@ -66,6 +67,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Mission> getMissions() {
+        return missions;
+    }
+
+    public void setMissions(List<Mission> missions) {
+        this.missions = missions;
     }
 }
 
