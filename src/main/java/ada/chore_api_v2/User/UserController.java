@@ -1,11 +1,16 @@
 package ada.chore_api_v2.User;
 
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -13,33 +18,30 @@ public class UserController {
         this.userService = userService;
     }
 
-    // Create a new user
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    @PostMapping()
+    public ResponseEntity<UserResponseBody> createUser(@Valid @RequestBody User user, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
+        }
+        UserResponseBody newUser = userService.createUser(user);
+        if (newUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<UserResponseBody>(newUser, HttpStatus.CREATED);
     }
 
-    // Get all users
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping()
+    public ResponseEntity<Iterable<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    // Get a user by ID
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Integer id) {
-        return userService.getUserById(id).orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable int userId) {
+        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
 
-    // Update a user
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Integer id, @RequestBody User user) {
-        return userService.updateUser(id, user);
-    }
-
-    // Delete a user
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
+        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
     }
 }
