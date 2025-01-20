@@ -1,10 +1,12 @@
 package ada.chore_api_v2.User;
 
-import lombok.Getter;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.List;
 
 @RestController
@@ -17,22 +19,29 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
+    public ResponseEntity<UserResponseBody> createUser(@Valid @RequestBody User user, BindingResult result) {
+        if(result.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
+        }
+        UserResponseBody newUser = userService.createUser(user);
+        if (newUser == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<UserResponseBody>(newUser, HttpStatus.CREATED);
     }
 
     @GetMapping()
     public ResponseEntity<Iterable<User>> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
     }
 }
