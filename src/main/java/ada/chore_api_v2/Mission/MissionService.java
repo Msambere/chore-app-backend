@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MissionService {
@@ -20,41 +21,59 @@ public class MissionService {
         this.missionRepository = missionRepository;
     }
 
+    // Helper to convert a single Mission to MissionResponseBody
+    private MissionResponseBody toResponseBody(Mission mission) {
+        return new MissionResponseBody(mission); // Assumes MissionResponseBody has a constructor
+    }
+
+    // Helper to convert a list of Missions to a list of MissionResponseBody
+    private List<MissionResponseBody> toResponseBodyList(List<Mission> missions) {
+        return missions.stream()
+                .map(this::toResponseBody)
+                .collect(Collectors.toList());
+    }
+
     // Create or update a mission
-    public Mission saveMission(Mission mission) {
-        return missionRepository.save(mission);
+    public MissionResponseBody saveMission(Mission mission) {
+        Mission savedMission = missionRepository.save(mission);
+        return toResponseBody(savedMission);
     }
 
     // Get all missions with pagination
-    public Page<Mission> getAllMissionsWithPagination(int page, int size) {
+    public Page<MissionResponseBody> getAllMissionsWithPagination(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return missionRepository.findAll(pageable);
+        return missionRepository.findAll(pageable).map(this::toResponseBody);
     }
 
     // Get a mission by ID
-    public Optional<Mission> getMissionById(int id) {
-        return missionRepository.findById(id);
+    public Optional<MissionResponseBody> getMissionById(int id) {
+        return missionRepository.findById(id)
+                .map(this::toResponseBody);
     }
 
     // Get missions by user ID
-    public List<Mission> getMissionsByUserId(int userId) {
-        return missionRepository.findByUserId(userId);
+    public List<MissionResponseBody> getMissionsByUserId(int userId) {
+        List<Mission> missions = missionRepository.findByUserId(userId);
+        return toResponseBodyList(missions);
     }
 
     // Get missions by user ID with pagination
-    public List<Mission> getMissionsByUserIdWithPagination(int userId, int page, int size) {
+    public Page<MissionResponseBody> getMissionsByUserIdWithPagination(int userId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return missionRepository.findByUserId(userId, pageable);
+        return missionRepository.findByUserId(userId, pageable)
+                .map(this::toResponseBody);
     }
 
     // Get missions by category
-    public List<Mission> getMissionsByCategory(String category) {
-        return missionRepository.findByCategory(category);
+    public List<MissionResponseBody> getMissionsByCategory(String category) {
+        List<Mission> missions = missionRepository.findByCategory(category);
+        return toResponseBodyList(missions);
     }
 
     // Get missions started after a specific date
-    public List<Mission> getMissionsStartedAfter(LocalDateTime dateStarted) {
-        return missionRepository.findByDateStartedAfter(dateStarted);
+    public List<MissionResponseBody> getMissionsStartedAfter(LocalDateTime dateStarted) {
+        List<Mission> missions = missionRepository.findByDateStartedAfter(dateStarted);
+        return toResponseBodyList(missions);
     }
 
     // Delete a mission by ID

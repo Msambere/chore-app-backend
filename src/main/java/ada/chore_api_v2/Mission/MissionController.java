@@ -23,57 +23,49 @@ public class MissionController {
 
     // Create or update a mission
     @PostMapping
-    public ResponseEntity<Mission> createMission(@RequestBody Mission mission) {
-        Mission savedMission = missionService.saveMission(mission);
+    public ResponseEntity<MissionResponseBody> createMission(@RequestBody Mission mission) {
+        MissionResponseBody savedMission = missionService.saveMission(mission);
         return new ResponseEntity<>(savedMission, HttpStatus.CREATED);
     }
 
     // Get all missions with pagination
     @GetMapping
-    public ResponseEntity<Page<Mission>> getAllMissionsWithPagination(
+    public ResponseEntity<Page<MissionResponseBody>> getAllMissionsWithPagination(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Page<Mission> missions = missionService.getAllMissionsWithPagination(page, size);
+        Page<MissionResponseBody> missions = missionService.getAllMissionsWithPagination(page, size);
         return new ResponseEntity<>(missions, HttpStatus.OK);
     }
 
     // Get a mission by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Mission> getMissionById(@PathVariable int id) {
-        Optional<Mission> mission = missionService.getMissionById(id);
+    public ResponseEntity<MissionResponseBody> getMissionById(@PathVariable int id) {
+        Optional<MissionResponseBody> mission = missionService.getMissionById(id);
         return mission.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Get missions by user ID
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Mission>> getMissionsByUserId(@PathVariable int userId) {
-        List<Mission> missions = missionService.getMissionsByUserId(userId);
+    public ResponseEntity<List<MissionResponseBody>> getMissionsByUserId(@PathVariable int userId) {
+        List<MissionResponseBody> missions = missionService.getMissionsByUserId(userId);
         return new ResponseEntity<>(missions, HttpStatus.OK);
     }
 
     // Get missions by user ID with pagination
     @GetMapping("/user/{userId}/paginated")
-    public ResponseEntity<List<Mission>> getMissionsByUserIdWithPagination(
+    public ResponseEntity<Page<MissionResponseBody>> getMissionsByUserIdWithPagination(
             @PathVariable int userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        List<Mission> missions = missionService.getMissionsByUserIdWithPagination(userId, page, size);
+        Page<MissionResponseBody> missions = missionService.getMissionsByUserIdWithPagination(userId, page, size);
         return new ResponseEntity<>(missions, HttpStatus.OK);
     }
 
     // Get missions by category
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<Mission>> getMissionsByCategory(@PathVariable String category) {
-        List<Mission> missions = missionService.getMissionsByCategory(category);
-        return new ResponseEntity<>(missions, HttpStatus.OK);
-    }
-
-    // Get missions started after a specific date
-    @GetMapping("/started-after")
-    public ResponseEntity<List<Mission>> getMissionsStartedAfter(@RequestParam("date") String date) {
-        LocalDateTime dateStarted = LocalDateTime.parse(date);
-        List<Mission> missions = missionService.getMissionsStartedAfter(dateStarted);
+    public ResponseEntity<List<MissionResponseBody>> getMissionsByCategory(@PathVariable String category) {
+        List<MissionResponseBody> missions = missionService.getMissionsByCategory(category);
         return new ResponseEntity<>(missions, HttpStatus.OK);
     }
 

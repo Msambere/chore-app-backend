@@ -1,5 +1,6 @@
 package ada.chore_api_v2.User;
 import ada.chore_api_v2.Mission.Mission;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // when SP , it will ignore
     private List<Mission> missions;
 
     public User(String firstName, String username, String email, String lastName) {
