@@ -20,7 +20,7 @@ public class Chore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="title", nullable = false, unique = true)
+    @Column(name="title", nullable = false)
     @NotBlank
     private String title;
 
@@ -64,11 +64,11 @@ public class Chore {
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -84,7 +84,7 @@ public class Chore {
     }
 
     public String getRecurrence() {
-        return recurrence;
+        return this.recurrence;
     }
 
     public void setRecurrence(String recurrence) {
@@ -92,7 +92,7 @@ public class Chore {
     }
 
     public String getCategory() {
-        return category;
+        return this.category;
     }
 
     public void setCategory(String category) {
@@ -100,7 +100,7 @@ public class Chore {
     }
 
     public Duration getDuration() {
-        return duration;
+        return this.duration;
     }
 
     public void setDuration(Duration duration) {
@@ -108,7 +108,7 @@ public class Chore {
     }
 
     public Integer getDifficulty() {
-        return difficulty;
+        return this.difficulty;
     }
 
     public void setDifficulty(Integer difficulty) {
@@ -116,7 +116,7 @@ public class Chore {
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(User user) {

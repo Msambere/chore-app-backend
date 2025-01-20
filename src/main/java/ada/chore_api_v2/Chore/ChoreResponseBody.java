@@ -18,6 +18,7 @@ public class ChoreResponseBody {
         this.description = chore.getDescription();
         this.recurrence = chore.getRecurrence();
         this.category = chore.getCategory();
+//        this.duration = chore.getDuration().toMinutes();
         this.duration = chore.getDuration();
         this.difficulty = chore.getDifficulty();
         this.userId = chore.getUser().getId();
