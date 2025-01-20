@@ -18,7 +18,7 @@ public class Chore {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="title", nullable = false, unique = true)
+    @Column(name="title", nullable = false)
     @NotBlank
     private String title;
 
