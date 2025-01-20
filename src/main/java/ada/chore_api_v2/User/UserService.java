@@ -13,10 +13,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
-        System.out.println(user.getUsername());
-        return userRepository.save(user);
+    public UserResponseBody createUser(User user) {
+        User foundUser = userRepository.findByUsername(user.getUsername());
+        if (foundUser != null) {
+            return null;
+        }
+        userRepository.save(user);
+        UserResponseBody response = new UserResponseBody(userRepository.save(user));
+        return response;
     }
+
 
     public Iterable<User> getAllUsers(){
         return userRepository.findAll();
@@ -37,6 +43,6 @@ public class UserService {
             userRepository.delete(user.get());
             return "User deleted";
         }
-        return null;
+        return "User not found";
     }
 }
