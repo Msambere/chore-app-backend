@@ -12,6 +12,7 @@ public class ChoreResponseBody {
     public Duration duration;
     public Integer difficulty;
     public Integer userId;
+    public Integer choreId;
 
     public ChoreResponseBody(Chore chore) {
         this.title = chore.getTitle();
@@ -22,5 +23,6 @@ public class ChoreResponseBody {
         this.duration = chore.getDuration();
         this.difficulty = chore.getDifficulty();
         this.userId = chore.getUser().getId();
+        this.choreId = chore.getId();
     }
 }
