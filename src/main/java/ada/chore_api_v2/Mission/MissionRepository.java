@@ -10,11 +10,5 @@ import java.util.List;
 
 @Repository
 public interface MissionRepository extends JpaRepository<Mission, Integer> {
-    List<Mission> findByUserId(int userId);
 
-    List<Mission> findByCategory(String category);
-
-    List<Mission> findByDateStartedAfter(LocalDateTime dateStarted);
-
-    Page<Mission> findByUserId(int userId, Pageable pageable);
 }

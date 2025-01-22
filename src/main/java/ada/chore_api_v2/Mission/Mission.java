@@ -27,23 +27,24 @@ public class Mission {
     private LocalDateTime dateStarted;
 
     @Column(name = "total_unredeemed_points", nullable = false)
-    private int totalUnredeemedPoints;
+    private Integer totalUnredeemedPoints;
 
-    @Column(name = "time_elapsed", nullable = true)
+    @Column(name= "time_limit", nullable = true)
+    private Duration timeLimit;
+
+    @Column(name = "time_elapsed", nullable = false)
     private Duration timeElapsed;
 
-    public Mission() {
-        this.dateStarted = LocalDateTime.now();
-        this.totalUnredeemedPoints = 0;
-    }
+    public Mission() {}
 
-    public Mission(User user, String recurrence, String category, LocalDateTime dateStarted, int totalUnredeemedPoints, Duration timeElapsed) {
+    public Mission(User user, String recurrence, String category, LocalDateTime dateStarted, Integer totalUnredeemedPoints, Duration timeLimit, Duration timeElapsed) {
         this.user = user;
         this.recurrence = recurrence;
         this.category = category;
-        this.dateStarted = dateStarted;
-        this.totalUnredeemedPoints = totalUnredeemedPoints;
-        this.timeElapsed = timeElapsed;
+        this.dateStarted = LocalDateTime.now();
+        this.totalUnredeemedPoints = 0;
+        this.timeLimit = timeLimit;
+        this.timeElapsed = Duration.ZERO;
     }
 
     // Getters and setters
@@ -90,6 +91,9 @@ public class Mission {
     public void setTotalUnredeemedPoints(int totalUnredeemedPoints) {
         this.totalUnredeemedPoints = totalUnredeemedPoints;
     }
+    public Duration getTimeLimit() { return timeLimit; }
+
+    public void setTimeLimit(Duration timeLimit) { this.timeLimit = timeLimit; }
 
     public Duration getTimeElapsed() {
         return timeElapsed;
