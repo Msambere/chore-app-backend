@@ -33,17 +33,14 @@ public class Mission {
     private Long timeLimit;
 
     @Column(name = "time_elapsed", nullable = true)
-    private Long timeElapsed =null;
+    private Long timeElapsed = null;
 
 
     public Mission(User user, String recurrence, String category, Long timeLimit) {
         this.user = user;
         this.recurrence = recurrence;
         this.category = category;
-//        this.dateStarted = LocalDateTime.now();
-//        this.totalUnredeemedPoints = 0;
         this.timeLimit = timeLimit;
-//        this.timeElapsed = timeElapsed;
     }
 
     public Mission() {}

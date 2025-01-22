@@ -37,9 +37,6 @@ public class MissionService {
         System.out.println(foundUser.isPresent());
         if (foundUser.isPresent()) {
             missionRequest.setUser(foundUser.get());
-//            missionRequest.setDateStarted(LocalDateTime.now());
-//            missionRequest.setTimeElapsed(Duration.ofMinutes(0L));
-//            missionRequest.setTotalUnredeemedPoints(0);
             return new MissionResponseBody(missionRepository.save(missionRequest));
         }
         return null;
