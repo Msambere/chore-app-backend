@@ -30,20 +30,20 @@ public class Mission {
     private Integer totalUnredeemedPoints = 0;
 
     @Column(name= "time_limit", nullable = true)
-    private Duration timeLimit;
+    private Long timeLimit;
 
     @Column(name = "time_elapsed", nullable = true)
-    private Duration timeElapsed = Duration.ofSeconds(0L);
+    private Long timeElapsed =null;
 
 
-    public Mission(User user, String recurrence, String category, long timeLimit) {
+    public Mission(User user, String recurrence, String category, Long timeLimit) {
         this.user = user;
         this.recurrence = recurrence;
         this.category = category;
         this.dateStarted = LocalDateTime.now();
         this.totalUnredeemedPoints = 0;
-        this.timeLimit = Duration.ofMinutes(timeLimit);
-        this.timeElapsed = timeElapsed != null ? timeElapsed : Duration.ofMinutes(0L);
+        this.timeLimit = timeLimit;
+//        this.timeElapsed = timeElapsed;
     }
 
     public Mission() {}
@@ -91,19 +91,16 @@ public class Mission {
     public void setTotalUnredeemedPoints(int totalUnredeemedPoints) {
         this.totalUnredeemedPoints = totalUnredeemedPoints;
     }
-    public Duration getTimeLimit() { return timeLimit; }
+    public Long getTimeLimit() { return timeLimit; }
 
-    public long getTimeLimitReadable(){ return timeLimit.toMinutes();}
 
-    public void setTimeLimit(Duration timeLimit) { this.timeLimit = timeLimit; }
+    public void setTimeLimit(Long timeLimit) { this.timeLimit = timeLimit; }
 
-    public Duration getTimeElapsed() {
+    public Long getTimeElapsed() {
         return timeElapsed;
     }
 
-    public long getTimeElapsedReadable() {return timeElapsed.toMinutes();}
-
-    public void setTimeElapsed(Duration timeElapsed) {
+    public void setTimeElapsed(Long timeElapsed) {
         this.timeElapsed = timeElapsed;
     }
 }
