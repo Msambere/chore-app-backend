@@ -23,6 +23,23 @@ public class MissionService {
         return missionRepository.findAll();
     }
 
+    //Update a Mission
+    public MissionResponseBody updateMission(int missionId, Mission missionRequest) {
+        Optional<Mission> optionalMission = missionRepository.findById(missionId);
+        if (!optionalMission.isPresent()) {
+            return null;
+        }
+        Mission mission = optionalMission.get();
+        if (missionRequest.getTimeElapsed() != null) {
+            mission.setTimeElapsed(missionRequest.getTimeElapsed());
+        }
+        if (missionRequest.getTotalUnredeemedPoints() != null) {
+            mission.setTotalUnredeemedPoints(missionRequest.getTotalUnredeemedPoints());
+        }
+        Mission updatedMission = missionRepository.save(mission);
+        return new MissionResponseBody(updatedMission);
+    }
+
     // Create a Mission
     public MissionResponseBody createMission(int userId, Mission missionRequest) {
         Optional<User> foundUser = userRepository.findById(userId);
