@@ -37,7 +37,7 @@ public class User {
     @JsonIgnore
     private Set<Chore> chores = new HashSet<>();
 
-    public User(String firstName, String username, String email, String lastName) {
+    public User(String firstName, String lastName, String username, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

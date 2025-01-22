@@ -32,7 +32,7 @@ public class Mission {
     @Column(name= "time_limit", nullable = true)
     private Long timeLimit;
 
-    @Column(name = "time_elapsed", nullable = false)
+    @Column(name = "time_elapsed", nullable = true)
     private Long timeElapsed;
 
     public Mission(User user, String recurrence, String category, LocalDateTime dateStarted, Integer totalUnredeemedPoints, Long timeLimit, Long timeElapsed) {
