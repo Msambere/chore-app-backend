@@ -84,7 +84,7 @@ public class Mission {
         this.dateStarted = dateStarted;
     }
 
-    public int getTotalUnredeemedPoints() {
+    public Integer getTotalUnredeemedPoints() {
         return totalUnredeemedPoints;
     }
 

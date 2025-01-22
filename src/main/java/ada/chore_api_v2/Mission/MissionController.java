@@ -29,12 +29,21 @@ public class MissionController {
             System.out.println(result.getAllErrors());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        System.out.println("No errors found");
         MissionResponseBody newMission = missionService.createMission(userId, missionRequest);
         if (newMission == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<MissionResponseBody>(newMission, HttpStatus.CREATED);
+    }
+
+    // Update Mission:
+    @PatchMapping("/missions/{missionId}")
+    public ResponseEntity<MissionResponseBody> updateMission(@PathVariable int missionId, @Valid @RequestBody Mission missionRequest) {
+        MissionResponseBody updateMission = missionService.updateMission(missionId, missionRequest);
+        if (updateMission == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(updateMission, HttpStatus.OK);
     }
 
     // Get all Missions

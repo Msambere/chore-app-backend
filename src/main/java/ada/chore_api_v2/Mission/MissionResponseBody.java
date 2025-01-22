@@ -25,31 +25,18 @@ public class MissionResponseBody {
         this.userId = mission.getUser().getId();
     }
 
-    public Integer getMissionId() {
-        return missionId;
-    }
 
-    public String getCategory() {
-        return category;
-    }
+    public Integer getMissionId() { return missionId; }
 
-    public String getRecurrence() {
-        return recurrence;
-    }
+    public String getCategory() { return category; }
 
-    public Integer getTotalUnredeemedPoints() {
-        return totalUnredeemedPoints;
-    }
+    public String getRecurrence() { return recurrence; }
 
-    public LocalDateTime getDateStarted() {
-        return dateStarted;
-    }
+    public Integer getTotalUnredeemedPoints() { return totalUnredeemedPoints; }
 
     public Long getTimeLimit() { return timeLimit; }
-
+    public LocalDateTime getDateStarted() { return dateStarted; }
     public Long getTimeElapsed() { return timeElapsed; }
 
-    public Integer getUserId() {
-        return userId;
-    }
+    public Integer getUserId() { return userId; }
 }

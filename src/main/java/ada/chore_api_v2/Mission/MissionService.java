@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Optional;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
@@ -52,6 +52,23 @@ public class MissionService {
             return new MissionResponseBody(mission.get());
         }
         return null;
+    }
+
+    //Update a Mission
+    public MissionResponseBody updateMission(int missionId, Mission missionRequest) {
+        Optional<Mission> optionalMission = missionRepository.findById(missionId);
+        if (!optionalMission.isPresent()) {
+            return null;
+        }
+        Mission mission = optionalMission.get();
+        if (missionRequest.getTimeElapsed() != null) {
+            mission.setTimeElapsed(missionRequest.getTimeElapsed());
+        }
+        if (missionRequest.getTotalUnredeemedPoints() != null) {
+            mission.setTotalUnredeemedPoints(missionRequest.getTotalUnredeemedPoints());
+        }
+        Mission updatedMission = missionRepository.save(mission);
+        return new MissionResponseBody(updatedMission);
     }
 
     // Delete a Mission by ID
