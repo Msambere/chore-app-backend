@@ -10,8 +10,8 @@ public class MissionResponseBody {
     private String recurrence;
     private Integer totalUnredeemedPoints;
     private LocalDateTime dateStarted;
-    private Duration timeLimit;
-    private Duration timeElapsed;
+    private long timeLimit;
+    private long timeElapsed;
     private Integer userId;
 
     public MissionResponseBody(Mission mission) {
@@ -20,8 +20,8 @@ public class MissionResponseBody {
         this.recurrence = mission.getRecurrence();
         this.totalUnredeemedPoints = mission.getTotalUnredeemedPoints();
         this.dateStarted = mission.getDateStarted();
-        this.timeLimit = mission.getTimeLimit();
-        this.timeElapsed = mission.getTimeElapsed();
+        this.timeLimit = mission.getTimeLimitReadable();
+        this.timeElapsed = mission.getTimeElapsedReadable();
         this.userId = mission.getUser().getId();
     }
 
@@ -45,9 +45,9 @@ public class MissionResponseBody {
         return dateStarted;
     }
 
-    public Duration getTimeLimit() { return timeLimit; }
+    public long getTimeLimit() { return timeLimit; }
 
-    public Duration getTimeElapsed() { return timeElapsed; }
+    public long getTimeElapsed() { return timeElapsed; }
 
     public Integer getUserId() {
         return userId;

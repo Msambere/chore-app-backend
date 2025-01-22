@@ -6,7 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+
+import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 
 @Service
 public class MissionService {
@@ -19,15 +23,23 @@ public class MissionService {
     }
 
     // Get all Missions
-    public Iterable<Mission> getAllMissions() {
-        return missionRepository.findAll();
+    public Iterable<MissionResponseBody> getAllMissions() {
+        Iterable<Mission> missions = missionRepository.findAll();
+        Set<MissionResponseBody> missionResponseBodies = new HashSet<>();
+        missions.forEach(mission -> missionResponseBodies.add(new MissionResponseBody(mission)));
+
+        return missionResponseBodies;
     }
 
     // Create a Mission
     public MissionResponseBody createMission(int userId, Mission missionRequest) {
         Optional<User> foundUser = userRepository.findById(userId);
+        System.out.println(foundUser.isPresent());
         if (foundUser.isPresent()) {
             missionRequest.setUser(foundUser.get());
+//            missionRequest.setDateStarted(LocalDateTime.now());
+//            missionRequest.setTimeElapsed(Duration.ofMinutes(0L));
+//            missionRequest.setTotalUnredeemedPoints(0);
             return new MissionResponseBody(missionRepository.save(missionRequest));
         }
         return null;

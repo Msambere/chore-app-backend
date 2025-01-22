@@ -29,7 +29,7 @@ public class MissionController {
             System.out.println(result.getAllErrors());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
+        System.out.println("No errors found");
         MissionResponseBody newMission = missionService.createMission(userId, missionRequest);
         if (newMission == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -39,7 +39,7 @@ public class MissionController {
 
     // Get all Missions
     @GetMapping("/missions")
-    public ResponseEntity<Iterable<Mission>> getAllMissions() {
+    public ResponseEntity<Iterable<MissionResponseBody>> getAllMissions() {
         return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
     }
 
