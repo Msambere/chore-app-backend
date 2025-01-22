@@ -40,10 +40,7 @@ public class Mission {
         this.user = user;
         this.recurrence = recurrence;
         this.category = category;
-//        this.dateStarted = LocalDateTime.now();
-//        this.totalUnredeemedPoints = 0;
         this.timeLimit = timeLimit;
-//        this.timeElapsed = timeElapsed;
     }
 
     public Mission() {}
