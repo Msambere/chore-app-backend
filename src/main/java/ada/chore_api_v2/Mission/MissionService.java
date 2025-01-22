@@ -26,11 +26,17 @@ public class MissionService {
     // Create a Mission
     public MissionResponseBody createMission(int userId, Mission missionRequest) {
         Optional<User> foundUser = userRepository.findById(userId);
-        if (foundUser.isPresent()) {
-            missionRequest.setUser(foundUser.get());
-            return new MissionResponseBody(missionRepository.save(missionRequest));
+        if (!foundUser.isPresent()) {
+            return null;
         }
-        return null;
+        User user = foundUser.get();
+        missionRequest.setUser(user);
+        missionRequest.setDateStarted(LocalDateTime.now());
+        missionRequest.setTotalUnredeemedPoints(0);
+        missionRequest.setTimeElapsed(0L);
+
+        Mission savedMission = missionRepository.save(missionRequest);
+        return new MissionResponseBody(savedMission);
     }
 
     // Get a Mission by ID

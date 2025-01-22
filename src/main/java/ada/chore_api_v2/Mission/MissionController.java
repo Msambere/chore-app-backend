@@ -29,10 +29,9 @@ public class MissionController {
             System.out.println(result.getAllErrors());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
         MissionResponseBody newMission = missionService.createMission(userId, missionRequest);
         if (newMission == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<MissionResponseBody>(newMission, HttpStatus.CREATED);
     }
