@@ -34,10 +34,8 @@ public class MissionResponseBody {
 
     public Integer getTotalUnredeemedPoints() { return totalUnredeemedPoints; }
 
-    public LocalDateTime getDateStarted() { return dateStarted; }
-
     public Long getTimeLimit() { return timeLimit; }
-
+    public LocalDateTime getDateStarted() { return dateStarted; }
     public Long getTimeElapsed() { return timeElapsed; }
 
     public Integer getUserId() { return userId; }

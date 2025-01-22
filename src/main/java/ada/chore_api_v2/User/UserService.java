@@ -37,6 +37,27 @@ public class UserService {
         return null;
     }
 
+    public UserResponseBody updateUser(User userRequest, int userId) {
+        Optional<User> foundUser =userRepository.findById(userId);
+        if(foundUser.isPresent()) {
+            User updatedUser = foundUser.get();
+            if (userRequest.getUsername() != null) {
+                updatedUser.setUsername(userRequest.getUsername());
+            }
+            if (userRequest.getFirstName() != null) {
+                updatedUser.setFirstName(userRequest.getFirstName());
+            }
+            if (userRequest.getLastName() != null){
+                updatedUser.setLastName(userRequest.getLastName());
+            }
+            if (userRequest.getEmail() != null){
+                updatedUser.setEmail(userRequest.getEmail());
+            }
+            return new UserResponseBody(userRepository.save(updatedUser));
+        }
+        return null;
+    }
+
     public String deleteUserById(int id){
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {

@@ -48,7 +48,7 @@ public class MissionController {
 
     // Get all Missions
     @GetMapping("/missions")
-    public ResponseEntity<Iterable<Mission>> getAllMissions() {
+    public ResponseEntity<Iterable<MissionResponseBody>> getAllMissions() {
         return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
     }
 

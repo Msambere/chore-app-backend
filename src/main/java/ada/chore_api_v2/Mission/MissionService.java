@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 
 @Service
 public class MissionService {
@@ -19,8 +23,35 @@ public class MissionService {
     }
 
     // Get all Missions
-    public Iterable<Mission> getAllMissions() {
-        return missionRepository.findAll();
+    public Iterable<MissionResponseBody> getAllMissions() {
+        Iterable<Mission> missions = missionRepository.findAll();
+        Set<MissionResponseBody> missionResponseBodies = new HashSet<>();
+        missions.forEach(mission -> missionResponseBodies.add(new MissionResponseBody(mission)));
+
+        return missionResponseBodies;
+    }
+
+    // Create a Mission
+    public MissionResponseBody createMission(int userId, Mission missionRequest) {
+        Optional<User> foundUser = userRepository.findById(userId);
+        System.out.println(foundUser.isPresent());
+        if (foundUser.isPresent()) {
+            missionRequest.setUser(foundUser.get());
+//            missionRequest.setDateStarted(LocalDateTime.now());
+//            missionRequest.setTimeElapsed(Duration.ofMinutes(0L));
+//            missionRequest.setTotalUnredeemedPoints(0);
+            return new MissionResponseBody(missionRepository.save(missionRequest));
+        }
+        return null;
+    }
+
+    // Get a Mission by ID
+    public MissionResponseBody getMissionById(int id) {
+        Optional<Mission> mission = missionRepository.findById(id);
+        if (mission.isPresent()) {
+            return new MissionResponseBody(mission.get());
+        }
+        return null;
     }
 
     //Update a Mission
@@ -38,31 +69,6 @@ public class MissionService {
         }
         Mission updatedMission = missionRepository.save(mission);
         return new MissionResponseBody(updatedMission);
-    }
-
-    // Create a Mission
-    public MissionResponseBody createMission(int userId, Mission missionRequest) {
-        Optional<User> foundUser = userRepository.findById(userId);
-        if (!foundUser.isPresent()) {
-            return null;
-        }
-        User user = foundUser.get();
-        missionRequest.setUser(user);
-        missionRequest.setDateStarted(LocalDateTime.now());
-        missionRequest.setTotalUnredeemedPoints(0);
-        missionRequest.setTimeElapsed(0L);
-
-        Mission savedMission = missionRepository.save(missionRequest);
-        return new MissionResponseBody(savedMission);
-    }
-
-    // Get a Mission by ID
-    public MissionResponseBody getMissionById(int id) {
-        Optional<Mission> mission = missionRepository.findById(id);
-        if (mission.isPresent()) {
-            return new MissionResponseBody(mission.get());
-        }
-        return null;
     }
 
     // Delete a Mission by ID
