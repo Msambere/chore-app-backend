@@ -1,5 +1,6 @@
 package ada.chore_api_v2.User;
 
+import ada.chore_api_v2.GenericResponseBody;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -18,42 +20,62 @@ public class UserController {
         this.userService = userService;
     }
 
+    // Create new user
     @PostMapping()
-    public ResponseEntity<UserResponseBody> createUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> createUser(@Valid @RequestBody User user, BindingResult result) {
         if(result.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
+            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
+            return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
         }
-        UserResponseBody newUser = userService.createUser(user);
+        GenericResponseBody newUser = userService.createUser(user);
         if (newUser == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody userAlreadyExists = new GenericResponseBody("User already exists");
+            return new ResponseEntity<GenericResponseBody>(userAlreadyExists, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<UserResponseBody>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<GenericResponseBody>(newUser, HttpStatus.CREATED);
     }
 
+    // Get all users
     @GetMapping()
-    public ResponseEntity<Iterable<User>> getAllUsers() {
+    public ResponseEntity<Set<GenericResponseBody>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
+    // Get one user
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
+    public ResponseEntity<GenericResponseBody> getUserById(@PathVariable int userId) {
+        return new ResponseEntity<GenericResponseBody>(userService.getUserById(userId), HttpStatus.OK);
     }
 
+    //Get chores of one user
+    @GetMapping("/{userId}/chores")
+    public ResponseEntity<Set<GenericResponseBody>> getChoresByUserId(@PathVariable int userId) {
+        return new ResponseEntity<>(userService.getChoresByUserId(userId), HttpStatus.OK);
+    }
+
+    //Get missions of one user
+    @GetMapping("/{userId}/missions")
+    public ResponseEntity<Set<GenericResponseBody>> getMissionsByUserId(@PathVariable int userId) {
+        return new ResponseEntity<>(userService.getMissionsByUserId(userId), HttpStatus.OK);
+    }
+
+
     @PatchMapping("/{userId}")
-    public ResponseEntity<UserResponseBody> updateUser(@PathVariable int userId, @RequestBody User userRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> updateUser(@PathVariable int userId, @RequestBody User userRequest, BindingResult result) {
         if(result.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); //Figure out how to add message or make custom response body
+            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
+            return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        UserResponseBody updatedUser = userService.updateUser(userRequest, userId);
+        GenericResponseBody updatedUser = userService.updateUser(userRequest, userId);
         if (updatedUser == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody userNotFound = new GenericResponseBody("User not found");
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<UserResponseBody>(updatedUser, HttpStatus.CREATED);
+        return new ResponseEntity<GenericResponseBody>(updatedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUserById(@PathVariable int userId) {
+    public ResponseEntity<GenericResponseBody> deleteUserById(@PathVariable int userId) {
         return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
     }
 }

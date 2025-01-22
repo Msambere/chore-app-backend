@@ -1,9 +1,13 @@
 package ada.chore_api_v2.User;
 
+import ada.chore_api_v2.Chore.ChoreResponseBody;
+import ada.chore_api_v2.GenericResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -13,7 +17,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserResponseBody createUser(User user) {
+    // Create a new user
+    public GenericResponseBody createUser(User user) {
         User foundUser = userRepository.findByUsername(user.getUsername());
         if (foundUser != null) {
             return null;
@@ -23,21 +28,40 @@ public class UserService {
         return response;
     }
 
-
-    public Iterable<User> getAllUsers(){
-        return userRepository.findAll();
+    // Get all users
+    public Set<GenericResponseBody> getAllUsers(){
+        Iterable<User> users = userRepository.findAll();
+        Set<GenericResponseBody> userResponseBodies = new HashSet<>();
+        users.forEach(user -> userResponseBodies.add(new UserResponseBody(user)));
+        return userResponseBodies;
     }
 
-    public User getUserById(int id){
+    // Get one user
+    public GenericResponseBody getUserById(int id){
         Optional<User> user = userRepository.findById(id);
+        return user.map(UserResponseBody::new).orElse(null);
+    }
+
+    //Get chores of one user
+    public Set<GenericResponseBody> getChoresByUserId(int userId){
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            User foundUser = user.get();
-            return foundUser;
+            return user.get().getChoreResponses();
         }
         return null;
     }
 
-    public UserResponseBody updateUser(User userRequest, int userId) {
+    //Get missions of one user
+    public Set<GenericResponseBody> getMissionsByUserId(int userId){
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return user.get().getMissionResponses();
+        }
+        return null;
+    }
+
+    // Update a user
+    public GenericResponseBody updateUser(User userRequest, int userId) {
         Optional<User> foundUser =userRepository.findById(userId);
         if(foundUser.isPresent()) {
             User updatedUser = foundUser.get();
@@ -58,12 +82,12 @@ public class UserService {
         return null;
     }
 
-    public String deleteUserById(int id){
+    public GenericResponseBody deleteUserById(int id){
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.delete(user.get());
-            return "User deleted";
+            return new GenericResponseBody("User deleted successfully");
         }
-        return "User not found";
+        return new GenericResponseBody("User not found");
     }
 }
