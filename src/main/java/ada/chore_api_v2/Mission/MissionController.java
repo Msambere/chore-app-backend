@@ -23,6 +23,7 @@ public class MissionController {
         this.missionService = missionService;
     }
 
+    // Create a Mission
     @PostMapping("/users/{userId}/missions")
     public ResponseEntity<MissionResponseBody> addMission(@PathVariable int userId, @Valid @RequestBody Mission missionRequest, BindingResult result) {
         if (result.hasErrors()) {
@@ -36,6 +37,18 @@ public class MissionController {
         return new ResponseEntity<MissionResponseBody>(newMission, HttpStatus.CREATED);
     }
 
+    // Get all Missions
+    @GetMapping("/missions")
+    public ResponseEntity<Iterable<MissionResponseBody>> getAllMissions() {
+        return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
+    }
+
+    // Get a mission by id
+    @GetMapping("/missions/{missionId}")
+    public ResponseEntity<MissionResponseBody> getMissionById(@PathVariable int missionId) {
+        return new ResponseEntity<MissionResponseBody>(missionService.getMissionById(missionId), HttpStatus.OK);
+    }
+
     // Update Mission:
     @PatchMapping("/missions/{missionId}")
     public ResponseEntity<MissionResponseBody> updateMission(@PathVariable int missionId, @Valid @RequestBody Mission missionRequest) {
@@ -46,19 +59,7 @@ public class MissionController {
         return new ResponseEntity<>(updateMission, HttpStatus.OK);
     }
 
-    // Get all Missions
-    @GetMapping("/missions")
-    public ResponseEntity<Iterable<MissionResponseBody>> getAllMissions() {
-        return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
-    }
-
-    // get a mission by id
-    @GetMapping("/missions/{missionId}")
-    public ResponseEntity<MissionResponseBody> getMissionById(@PathVariable int missionId) {
-        return new ResponseEntity<MissionResponseBody>(missionService.getMissionById(missionId), HttpStatus.OK);
-    }
-
-    //delete a mission by ID
+    // Delete a mission by ID
     @DeleteMapping("/missions/{missionId}")
     public ResponseEntity<String> deleteMission(@PathVariable int missionId) {
         return new ResponseEntity<>(missionService.deleteMissionById(missionId), HttpStatus.OK);

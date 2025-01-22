@@ -1,6 +1,7 @@
 package ada.chore_api_v2.Chore;
 
 import ada.chore_api_v2.User.User;
+import ada.chore_api_v2.ChoreMission.ChoreMission;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -12,6 +13,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="chores")
@@ -50,6 +53,9 @@ public class Chore {
     @JsonIgnore
     @Valid
     private User user;
+
+    @OneToMany(mappedBy = "chore", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChoreMission> choreMissions = new ArrayList<>();
 
     public Chore() {}
 
@@ -122,4 +128,8 @@ public class Chore {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public List<ChoreMission> getChoreMissions() { return this.choreMissions; }
+
+    public void setChoreMissions(List<ChoreMission> choreMissions) { this.choreMissions = choreMissions; }
 }

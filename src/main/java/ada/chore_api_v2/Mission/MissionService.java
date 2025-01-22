@@ -22,14 +22,6 @@ public class MissionService {
         this.userRepository = userRepository;
     }
 
-    // Get all Missions
-    public Iterable<MissionResponseBody> getAllMissions() {
-        Iterable<Mission> missions = missionRepository.findAll();
-        Set<MissionResponseBody> missionResponseBodies = new HashSet<>();
-        missions.forEach(mission -> missionResponseBodies.add(new MissionResponseBody(mission)));
-
-        return missionResponseBodies;
-    }
 
     // Create a Mission
     public MissionResponseBody createMission(int userId, Mission missionRequest) {
@@ -40,6 +32,15 @@ public class MissionService {
             return new MissionResponseBody(missionRepository.save(missionRequest));
         }
         return null;
+    }
+
+    // Get all Missions
+    public Iterable<MissionResponseBody> getAllMissions() {
+        Iterable<Mission> missions = missionRepository.findAll();
+        Set<MissionResponseBody> missionResponseBodies = new HashSet<>();
+        missions.forEach(mission -> missionResponseBodies.add(new MissionResponseBody(mission)));
+
+        return missionResponseBodies;
     }
 
     // Get a Mission by ID
