@@ -1,10 +1,10 @@
 package ada.chore_api_v2.Mission;
 
+import ada.chore_api_v2.GenericResponseBody;
+
 import java.time.LocalDateTime;
-import java.time.Duration;
 
-
-public class MissionResponseBody {
+public class MissionResponseBody extends GenericResponseBody {
     private Integer missionId;
     private String category;
     private String recurrence;
