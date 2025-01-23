@@ -3,6 +3,8 @@ package ada.chore_api_v2.User;
 import ada.chore_api_v2.Chore.ChoreResponseBody;
 import ada.chore_api_v2.GenericResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -58,6 +60,15 @@ public class UserService {
             return user.get().getMissionResponses();
         }
         return null;
+    }
+
+    // Get all categories of one user
+    public ResponseEntity<Set<String>> getUserCategories (int userId){
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return new ResponseEntity<Set<String>>(user.get().getChoreCategories(),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Update a user

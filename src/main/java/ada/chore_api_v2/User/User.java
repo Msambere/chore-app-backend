@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class User {
     @NotBlank
     private String username;
 
-    @Column(name="email", nullable = false)
+    @Column(name = "email", nullable = false)
     @Email
     private String email;
 
@@ -59,48 +60,27 @@ public class User {
 
     public User() {}
 
-    public int getId() {
-        return id;
-    }
-    public String getFirstName() {
-        return firstName;
-    }
+    public int getId() {return id;}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getFirstName() {return firstName;}
 
-    public String getLastName() {
-        return lastName;
-    }
+    public void setFirstName(String firstName) {this.firstName = firstName;}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public String getLastName() {return lastName;}
 
-    public String getUsername() {
-        return username;
-    }
+    public void setLastName(String lastName) {this.lastName = lastName;}
 
-    public String getEmail() {
-        return email;
-    }
+    public String getUsername() {return username;}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUsername(String username) { this.username = username;}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail() { return email;}
 
-    public Set<Chore> getChores() {
-        return chores;
-    }
+    public void setEmail(String email) { this.email = email;}
 
-    public void addChore(Chore chore) {
-        this.chores.add(chore);
-    }
+    public Set<Chore> getChores() {return chores;}
+
+    public void addChore(Chore chore) {this.chores.add(chore);}
 
     public Set<UserReward> getUserRewards() { return this.userRewards; }
 
@@ -120,6 +100,14 @@ public class User {
             missionResponses.add(new MissionResponseBody(mission));
         }
         return missionResponses;
+    }
+
+    public Set<String> getChoreCategories() {
+        Set<String> choreCategories = new HashSet<>();
+        for(Chore chore : this.chores) {
+            choreCategories.add(chore.getCategory());
+        }
+        return choreCategories;
     }
 }
 
