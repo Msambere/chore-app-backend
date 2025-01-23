@@ -1,14 +1,13 @@
 package ada.chore_api_v2.Chore;
 
 import ada.chore_api_v2.User.User;
-import ada.chore_api_v2.ChoreMission.ChoreMission;
+import ada.chore_api_v2.MissionChore.MissionChore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -55,7 +54,7 @@ public class Chore {
     private User user;
 
     @OneToMany(mappedBy = "chore", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChoreMission> choreMissions = new ArrayList<>();
+    private List<MissionChore> missionChores = new ArrayList<>();
 
     public Chore() {}
 
@@ -129,7 +128,7 @@ public class Chore {
         this.user = user;
     }
 
-    public List<ChoreMission> getChoreMissions() { return this.choreMissions; }
+    public List<MissionChore> getChoreMissions() { return this.missionChores; }
 
-    public void setChoreMissions(List<ChoreMission> choreMissions) { this.choreMissions = choreMissions; }
+    public void setChoreMissions(List<MissionChore> missionChores) { this.missionChores = missionChores; }
 }
