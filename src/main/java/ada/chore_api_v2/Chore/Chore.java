@@ -11,6 +11,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.Duration;
+
 @Entity
 @Table(name="chores")
 public class Chore {
