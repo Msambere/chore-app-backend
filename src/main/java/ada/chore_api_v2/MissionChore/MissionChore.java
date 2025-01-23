@@ -2,6 +2,8 @@ package ada.chore_api_v2.MissionChore;
 
 import ada.chore_api_v2.Chore.Chore;
 import ada.chore_api_v2.Mission.Mission;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,14 +13,16 @@ public class MissionChore {
     @EmbeddedId
     private MissionChoreId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("missionId")
     @JoinColumn(name = "mission_id", nullable = false)
+    @JsonIgnore
     private Mission mission;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("choreId")
     @JoinColumn(name = "chore_id", nullable = false)
+    @JsonIgnore
     private Chore chore;
 
     @Column(name = "is_completed", nullable = false)
