@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/missionchore")
+@RequestMapping("/missionchores")
 public class MissionChoreController {
 
     private final MissionChoreService missionChoreService;
@@ -23,7 +23,7 @@ public class MissionChoreController {
             @RequestParam Integer missionId,
             @RequestParam Boolean isCompleted) {
 
-        MissionChore newMissionChore = missionChoreService.createMissionChore(missionId, choreId, isCompleted);
+        MissionChore newMissionChore = missionChoreService.createMissionChore(missionId, choreId);
         if (newMissionChore == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,8 +44,7 @@ public class MissionChoreController {
             @RequestParam Integer choreId,
             @RequestBody Boolean isCompleted) {
 
-        MissionChoreId missionChoreId = new MissionChoreId(missionId, choreId);
-        MissionChore updatedMissionChore = missionChoreService.updateMissionChore(missionChoreId, isCompleted);
+        MissionChore updatedMissionChore = missionChoreService.updateMissionChore(missionId, choreId, isCompleted);
 
         if (updatedMissionChore == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

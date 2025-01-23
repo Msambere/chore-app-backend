@@ -12,8 +12,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="chores")
@@ -54,7 +55,7 @@ public class Chore {
     private User user;
 
     @OneToMany(mappedBy = "chore", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MissionChore> missionChores = new ArrayList<>();
+    private Set<MissionChore> missionChores = new HashSet<>();
 
     public Chore() {}
 
@@ -128,7 +129,7 @@ public class Chore {
         this.user = user;
     }
 
-    public List<MissionChore> getChoreMissions() { return this.missionChores; }
+    public Set<MissionChore> getChoreMissions() { return this.missionChores; }
 
-    public void setChoreMissions(List<MissionChore> missionChores) { this.missionChores = missionChores; }
+    public void setChoreMissions(Set<MissionChore> missionChores) { this.missionChores = missionChores; }
 }

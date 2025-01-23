@@ -11,7 +11,6 @@ public class MissionChore {
     @EmbeddedId
     private MissionChoreId id;
 
-
     @ManyToOne
     @MapsId("missionId")
     @JoinColumn(name = "mission_id", nullable = false)
@@ -23,15 +22,14 @@ public class MissionChore {
     private Chore chore;
 
     @Column(name = "is_completed", nullable = false)
-    private Boolean isCompleted;
+    private Boolean isCompleted = false;
 
     public MissionChore() {}
 
-    public MissionChore(Mission mission, Chore chore, Boolean isCompleted) {
+    public MissionChore(Mission mission, Chore chore) {
         this.id = new MissionChoreId(mission.getId(), chore.getId());
         this.mission = mission;
         this.chore = chore;
-        this.isCompleted = isCompleted;
     }
 
     // Getters and setters

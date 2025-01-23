@@ -22,7 +22,7 @@ public class MissionChoreService {
     }
 
     //create new ChoreMission
-    public MissionChore createMissionChore( Integer missionId, Integer choreId, Boolean isCompleted) {
+    public MissionChore createMissionChore( Integer missionId, Integer choreId) {
         Optional<Mission> missionOptional = missionRepository.findById(missionId);
         Optional<Chore> choreOptional = choreRepository.findById(choreId);
 
@@ -30,7 +30,7 @@ public class MissionChoreService {
             Mission mission = missionOptional.get();
             Chore chore = choreOptional.get();
 
-            MissionChore missionChore = new MissionChore(mission, chore, isCompleted);
+            MissionChore missionChore = new MissionChore(mission, chore);
             return missionChoreRepository.save(missionChore);
         }
         return null;
@@ -43,8 +43,8 @@ public class MissionChoreService {
     }
 
     // update ChoreMission
-    public MissionChore updateMissionChore(MissionChoreId missionChoreId, Boolean isCompleted) {
-        Optional<MissionChore> missionChoreOptional = missionChoreRepository.findById(missionChoreId);
+    public MissionChore updateMissionChore(Integer missionId, Integer choreId, Boolean isCompleted) {
+        Optional<MissionChore> missionChoreOptional = missionChoreRepository.findByMissionIdAndChoreId(missionId, choreId);
 
         if (missionChoreOptional.isPresent()) {
             MissionChore missionChore = missionChoreOptional.get();

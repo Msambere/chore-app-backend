@@ -1,12 +1,16 @@
 package ada.chore_api_v2.MissionChore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.io.Serializable;
-import java.util.Objects;
+
 
 @Embeddable
 public class MissionChoreId implements Serializable {
+//    @Column(name = "mission_id")
     private Integer missionId;
+
+//    @Column(name = "chore_id")
     private Integer choreId;
 
     public MissionChoreId() {}
