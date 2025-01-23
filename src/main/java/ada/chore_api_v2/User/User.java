@@ -5,6 +5,8 @@ import ada.chore_api_v2.Chore.ChoreResponseBody;
 import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.Mission.Mission;
 import ada.chore_api_v2.Mission.MissionResponseBody;
+import ada.chore_api_v2.MissionChore.MissionChore;
+import ada.chore_api_v2.UserReward.UserReward;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -44,6 +46,10 @@ public class User {
     @JsonIgnore
     private Set<Mission> missions = new HashSet<>();
 
+    @OneToMany(mappedBy ="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private Set<UserReward> userRewards = new HashSet<>();
+
     public User(String firstName, String lastName, String username, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -80,7 +86,6 @@ public class User {
         return email;
     }
 
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -96,6 +101,10 @@ public class User {
     public void addChore(Chore chore) {
         this.chores.add(chore);
     }
+
+    public Set<UserReward> getUserRewards() { return this.userRewards; }
+
+    public void setUserRewards(Set<UserReward> userRewards) { this.userRewards = userRewards; }
 
     public Set<GenericResponseBody> getChoreResponses() {
         Set<GenericResponseBody> choreResponses= new HashSet<>();
