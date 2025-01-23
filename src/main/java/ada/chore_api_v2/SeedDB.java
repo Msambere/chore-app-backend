@@ -4,6 +4,8 @@ import ada.chore_api_v2.Chore.Chore;
 import ada.chore_api_v2.Chore.ChoreRepository;
 import ada.chore_api_v2.Mission.Mission;
 import ada.chore_api_v2.Mission.MissionRepository;
+import ada.chore_api_v2.MissionChore.MissionChore;
+import ada.chore_api_v2.MissionChore.MissionChoreRepository;
 import ada.chore_api_v2.User.User;
 import ada.chore_api_v2.User.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -19,11 +21,13 @@ public class SeedDB implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ChoreRepository choreRepository;
     private final MissionRepository missionRepository;
+    private final MissionChoreRepository missionChoreRepository;
 
-    public SeedDB(UserRepository userRepository, ChoreRepository choreRepository, MissionRepository missionRepository) {
+    public SeedDB(UserRepository userRepository, ChoreRepository choreRepository, MissionRepository missionRepository, MissionChoreRepository missionChoreRepository) {
         this.userRepository = userRepository;
         this.choreRepository = choreRepository;
         this.missionRepository = missionRepository;
+        this.missionChoreRepository = missionChoreRepository;
     }
 
     @Override
@@ -60,8 +64,18 @@ public class SeedDB implements CommandLineRunner {
                         j*10L
                 );
                 missionRepository.save(mission);
-            });
 
+                IntStream.range(1, 4).forEach(k -> {
+                    Chore chore = choreRepository.findById(k).orElse(null); // Fetch the Chore
+                    if (chore != null) {
+                        MissionChore missionChore = new MissionChore(
+                                mission,
+                                chore
+                        );
+                        missionChoreRepository.save(missionChore);
+                    }
+                });
+            });
         });
         System.out.println("Database seeded with 3 users and 3 chores and 3 missions per user!");
     }

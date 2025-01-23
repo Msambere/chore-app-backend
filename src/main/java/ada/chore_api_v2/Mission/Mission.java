@@ -1,9 +1,13 @@
 package ada.chore_api_v2.Mission;
 
+
+import ada.chore_api_v2.MissionChore.MissionChore;
 import ada.chore_api_v2.User.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "missions")
@@ -11,11 +15,14 @@ public class Mission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // Foreign key column
     private User user;
+
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MissionChore> missionChores = new ArrayList<>();
 
     @Column(name = "recurrence", nullable = true)
     private String recurrence;
@@ -33,7 +40,7 @@ public class Mission {
     private Long timeLimit;
 
     @Column(name = "time_elapsed", nullable = true)
-    private Long timeElapsed =null;
+    private Long timeElapsed = null;
 
 
     public Mission(User user, String recurrence, String category, Long timeLimit) {
@@ -56,6 +63,10 @@ public class Mission {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public List<MissionChore> getChoreMissions() { return missionChores; }
+
+    public void setChoreMissions(List<MissionChore> missionChores) { this.missionChores = missionChores; }
 
     public String getRecurrence() {
         return recurrence;

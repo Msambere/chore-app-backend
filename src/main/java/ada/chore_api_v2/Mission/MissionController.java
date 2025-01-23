@@ -41,7 +41,7 @@ public class MissionController {
         return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
     }
 
-    // get a mission by id
+    // Get a mission by id
     @GetMapping("/missions/{missionId}")
     public ResponseEntity<GenericResponseBody> getMissionById(@PathVariable int missionId) {
         GenericResponseBody foundMission = missionService.getMissionById(missionId);
