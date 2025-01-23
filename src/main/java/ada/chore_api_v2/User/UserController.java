@@ -44,6 +44,11 @@ public class UserController {
     // Get one user
     @GetMapping("/{userId}")
     public ResponseEntity<GenericResponseBody> getUserById(@PathVariable int userId) {
+        GenericResponseBody newUser = userService.getUserById(userId);
+        if (newUser == null) {
+            GenericResponseBody userNotFound = new GenericResponseBody("User not found");
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<GenericResponseBody>(userService.getUserById(userId), HttpStatus.OK);
     }
 
