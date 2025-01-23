@@ -40,14 +40,12 @@ public class SeedDB implements CommandLineRunner {
 
             // Create 10 Chores for each User
             IntStream.range(1, 4).forEach(j -> {
-                Duration duration = Duration.ofMinutes(j * 5L);
                 Chore chore = new Chore(
                         " Chore Title " + j,
                         "Chore Description " + j,
                         "Chore Recurrence " + j % 3,
                         "Chore Category " + j % 2,
-//                        duration.toMinutes(),
-                        duration,
+                        j*5L,
                         2,
                         user
                 );
