@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class User {
     @NotBlank
     private String username;
 
-    @Column(name="email", nullable = false)
+    @Column(name = "email", nullable = false)
     @Email
     private String email;
 
@@ -56,6 +57,7 @@ public class User {
     public int getId() {
         return id;
     }
+
     public String getFirstName() {
         return firstName;
     }
@@ -76,18 +78,11 @@ public class User {
         return username;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public void setUsername(String username) { this.username = username;}
 
+    public String getEmail() { return email;}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email;}
 
     public Set<Chore> getChores() {
         return chores;
@@ -111,6 +106,14 @@ public class User {
             missionResponses.add(new MissionResponseBody(mission));
         }
         return missionResponses;
+    }
+
+    public Set<String> getChoreCategories() {
+        Set<String> choreCategories = new HashSet<>();
+        for(Chore chore : this.chores) {
+            choreCategories.add(chore.getCategory());
+        }
+        return choreCategories;
     }
 }
 
