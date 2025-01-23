@@ -64,7 +64,14 @@ public class UserController {
         return new ResponseEntity<>(userService.getMissionsByUserId(userId), HttpStatus.OK);
     }
 
+    // Get all categories of one user
+    @GetMapping("/{userId}/categories")
+    public ResponseEntity<Set<String>> getCategoriesByUserId(@PathVariable int userId) {
+        return userService.getUserCategories(userId);
 
+    }
+
+    // Update User
     @PatchMapping("/{userId}")
     public ResponseEntity<GenericResponseBody> updateUser(@PathVariable int userId, @RequestBody User userRequest, BindingResult result) {
         if(result.hasErrors()) {
