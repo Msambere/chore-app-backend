@@ -1,10 +1,19 @@
 package ada.chore_api_v2.MissionChore;
 
+import ada.chore_api_v2.Chore.Chore;
+import ada.chore_api_v2.Chore.ChoreRepository;
+import ada.chore_api_v2.Chore.ChoreService;
+import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.Mission.Mission;
+import ada.chore_api_v2.Mission.MissionRepository;
+import ada.chore_api_v2.Mission.MissionService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/missionchores")
@@ -12,29 +21,25 @@ public class MissionChoreController {
 
     private final MissionChoreService missionChoreService;
 
-    public MissionChoreController(MissionChoreService missionChoreService) {
+
+    public MissionChoreController(MissionChoreService missionChoreService, ChoreRepository choreRepository, MissionRepository missionRepository) {
         this.missionChoreService = missionChoreService;
     }
 
     // Create new ChoreMission
     @PostMapping
-    public ResponseEntity<MissionChore> createMissionChore(
+    public ResponseEntity<GenericResponseBody> createMissionChore(
             @RequestParam Integer choreId,
-            @RequestParam Integer missionId,
-            @RequestParam Boolean isCompleted) {
+            @RequestParam Integer missionId) {
+        // Create new MissionCore
+        return missionChoreService.createMissionChore(missionId, choreId);
 
-        MissionChore newMissionChore = missionChoreService.createMissionChore(missionId, choreId);
-        if (newMissionChore == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(newMissionChore, HttpStatus.CREATED);
     }
 
     // Get all ChoreMission
     @GetMapping
-    public ResponseEntity<Iterable<MissionChore>> getAllMissionChore() {
-        Iterable<MissionChore> allMissionChore = missionChoreService.getAllMissionChore() ;
-        return new ResponseEntity<>(allMissionChore, HttpStatus.OK);
+    public ResponseEntity<Set<GenericResponseBody>> getAllMissionChores() {
+        return new ResponseEntity<>(missionChoreService.getAllMissionChores(), HttpStatus.OK);
     }
 
     // Update ChoreMission
