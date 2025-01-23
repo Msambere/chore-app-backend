@@ -44,15 +44,17 @@ public class MissionChoreController {
 
     // Update ChoreMission
     @PatchMapping
-    public ResponseEntity<MissionChore> updateMissionChore(
+    public ResponseEntity<GenericResponseBody> updateMissionChore(
             @RequestParam Integer missionId,
-            @RequestParam Integer choreId,
-            @RequestBody Boolean isCompleted) {
+            @RequestParam Integer choreId
+//            @RequestBody Boolean isCompleted
+    ) {
 
-        MissionChore updatedMissionChore = missionChoreService.updateMissionChore(missionId, choreId, isCompleted);
+//        GenericResponseBody updatedMissionChore = missionChoreService.updateMissionChore(missionId, choreId, isCompleted);
+        GenericResponseBody updatedMissionChore = missionChoreService.updateMissionChore(missionId, choreId);
 
         if (updatedMissionChore == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new GenericResponseBody("missionChore not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedMissionChore, HttpStatus.OK);
     }

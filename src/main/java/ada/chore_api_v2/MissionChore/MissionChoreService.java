@@ -66,13 +66,14 @@ public class MissionChoreService {
     }
 
     // update ChoreMission
-    public MissionChore updateMissionChore(Integer missionId, Integer choreId, Boolean isCompleted) {
+//    public GenericResponseBody updateMissionChore(Integer missionId, Integer choreId, Boolean isCompleted) {
+    public GenericResponseBody updateMissionChore(Integer missionId, Integer choreId) {
         Optional<MissionChore> missionChoreOptional = missionChoreRepository.findByMissionIdAndChoreId(missionId, choreId);
 
         if (missionChoreOptional.isPresent()) {
             MissionChore missionChore = missionChoreOptional.get();
-            missionChore.setIsCompleted(isCompleted);
-            return missionChoreRepository.save(missionChore);
+            missionChore.setIsCompleted(!missionChore.getIsCompleted());
+            return new MissonChoreResponseBody(missionChoreRepository.save(missionChore));
         }
         return null;
     }
