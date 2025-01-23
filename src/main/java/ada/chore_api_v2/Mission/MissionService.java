@@ -1,16 +1,14 @@
 package ada.chore_api_v2.Mission;
 
+import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.User.User;
 import ada.chore_api_v2.User.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 
 @Service
 public class MissionService {
@@ -21,7 +19,6 @@ public class MissionService {
         this.missionRepository = missionRepository;
         this.userRepository = userRepository;
     }
-
 
     // Create a Mission
     public MissionResponseBody createMission(int userId, Mission missionRequest) {
@@ -35,21 +32,19 @@ public class MissionService {
     }
 
     // Get all Missions
-    public Iterable<MissionResponseBody> getAllMissions() {
+    public Set<GenericResponseBody> getAllMissions() {
         Iterable<Mission> missions = missionRepository.findAll();
-        Set<MissionResponseBody> missionResponseBodies = new HashSet<>();
+        Set<GenericResponseBody> missionResponseBodies = new HashSet<>();
         missions.forEach(mission -> missionResponseBodies.add(new MissionResponseBody(mission)));
 
         return missionResponseBodies;
     }
 
+
     // Get a Mission by ID
-    public MissionResponseBody getMissionById(int id) {
+    public GenericResponseBody getMissionById(int id) {
         Optional<Mission> mission = missionRepository.findById(id);
-        if (mission.isPresent()) {
-            return new MissionResponseBody(mission.get());
-        }
-        return null;
+        return mission.map(MissionResponseBody::new).orElse(null);
     }
 
     //Update a Mission
@@ -70,12 +65,12 @@ public class MissionService {
     }
 
     // Delete a Mission by ID
-    public String deleteMissionById(int id) {
+    public GenericResponseBody deleteMissionById(int id) {
         Optional<Mission> mission = missionRepository.findById((int) id);
         if (mission.isPresent()) {
             missionRepository.delete(mission.get());
-            return "Mission deleted successfully";
+            return new GenericResponseBody("Mission deleted successfully");
         }
-        return "Mission not found";
+        return new GenericResponseBody("Mission not found");
     }
 }

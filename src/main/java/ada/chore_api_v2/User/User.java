@@ -2,6 +2,9 @@ package ada.chore_api_v2.User;
 
 import ada.chore_api_v2.Chore.Chore;
 import ada.chore_api_v2.Chore.ChoreResponseBody;
+import ada.chore_api_v2.GenericResponseBody;
+import ada.chore_api_v2.Mission.Mission;
+import ada.chore_api_v2.Mission.MissionResponseBody;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -36,6 +39,10 @@ public class User {
     @OneToMany(mappedBy ="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private Set<Chore> chores = new HashSet<>();
+
+    @OneToMany(mappedBy ="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Mission> missions = new HashSet<>();
 
     public User(String firstName, String lastName, String username, String email) {
         this.firstName = firstName;
@@ -90,12 +97,20 @@ public class User {
         this.chores.add(chore);
     }
 
-    public Set<ChoreResponseBody> getChoreResponses() {
-        Set<ChoreResponseBody> choreResponses= new HashSet<>();
+    public Set<GenericResponseBody> getChoreResponses() {
+        Set<GenericResponseBody> choreResponses= new HashSet<>();
         for(Chore chore : this.chores) {
             choreResponses.add(new ChoreResponseBody(chore));
         }
         return choreResponses;
+    }
+
+    public Set<GenericResponseBody> getMissionResponses() {
+        Set<GenericResponseBody> missionResponses= new HashSet<>();
+        for(Mission mission : this.missions) {
+            missionResponses.add(new MissionResponseBody(mission));
+        }
+        return missionResponses;
     }
 }
 

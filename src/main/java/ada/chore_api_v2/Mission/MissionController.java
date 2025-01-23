@@ -1,20 +1,16 @@
 package ada.chore_api_v2.Mission;
 
 
+import ada.chore_api_v2.GenericResponseBody;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @RestController
-//@RequestMapping("/missions")
 public class MissionController {
 
     private final MissionService missionService;
@@ -23,46 +19,52 @@ public class MissionController {
         this.missionService = missionService;
     }
 
-    // Create a Mission
+    // Create new Mission
     @PostMapping("/users/{userId}/missions")
-    public ResponseEntity<MissionResponseBody> addMission(@PathVariable int userId, @Valid @RequestBody Mission missionRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> addMission(@PathVariable int userId, @Valid @RequestBody Mission missionRequest, BindingResult result) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
+            return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
         MissionResponseBody newMission = missionService.createMission(userId, missionRequest);
         if (newMission == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            GenericResponseBody userNotFound = new GenericResponseBody("User not found");
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<MissionResponseBody>(newMission, HttpStatus.CREATED);
+        return new ResponseEntity<GenericResponseBody>(newMission, HttpStatus.CREATED);
     }
+
 
     // Get all Missions
     @GetMapping("/missions")
-    public ResponseEntity<Iterable<MissionResponseBody>> getAllMissions() {
+    public ResponseEntity<Set<GenericResponseBody>> getAllMissions() {
         return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
     }
 
     // Get a mission by id
     @GetMapping("/missions/{missionId}")
-    public ResponseEntity<MissionResponseBody> getMissionById(@PathVariable int missionId) {
-        return new ResponseEntity<MissionResponseBody>(missionService.getMissionById(missionId), HttpStatus.OK);
+    public ResponseEntity<GenericResponseBody> getMissionById(@PathVariable int missionId) {
+        GenericResponseBody foundMission = missionService.getMissionById(missionId);
+        if (foundMission == null) {
+            GenericResponseBody missionNotFound = new GenericResponseBody("Mission not found");
+        }
+        return new ResponseEntity<>(foundMission, HttpStatus.OK);
     }
 
     // Update Mission:
     @PatchMapping("/missions/{missionId}")
-    public ResponseEntity<MissionResponseBody> updateMission(@PathVariable int missionId, @Valid @RequestBody Mission missionRequest) {
+    public ResponseEntity<GenericResponseBody> updateMission(@PathVariable int missionId, @Valid @RequestBody Mission missionRequest) {
         MissionResponseBody updateMission = missionService.updateMission(missionId, missionRequest);
         if (updateMission == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            GenericResponseBody missionNotFound = new GenericResponseBody("Mission not found");
+            return new ResponseEntity<>(missionNotFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(updateMission, HttpStatus.OK);
+        return new ResponseEntity<GenericResponseBody>(updateMission, HttpStatus.OK);
     }
-
-    // Delete a mission by ID
+    //delete a mission by ID
     @DeleteMapping("/missions/{missionId}")
-    public ResponseEntity<String> deleteMission(@PathVariable int missionId) {
-        return new ResponseEntity<>(missionService.deleteMissionById(missionId), HttpStatus.OK);
+    public ResponseEntity<GenericResponseBody> deleteMission(@PathVariable int missionId) {
+        return new ResponseEntity<GenericResponseBody>(missionService.deleteMissionById(missionId), HttpStatus.OK);
     }
 
 }

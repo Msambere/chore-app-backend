@@ -1,10 +1,13 @@
 package ada.chore_api_v2.Chore;
 
+import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.User.User;
 import ada.chore_api_v2.User.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ChoreService {
@@ -16,28 +19,37 @@ public class ChoreService {
         this.userRepository = userRepository;
     }
 
-    public Iterable<Chore> getAllChores() {
-        return choreRepository.findAll();
-    }
-
-    public  ChoreResponseBody createChore(int userId, Chore choreRequest) {
+    // Create new Chore
+    public  GenericResponseBody createChore(int userId, Chore choreRequest) {
          Optional<User> foundUser =userRepository.findById(userId);
          if(foundUser.isPresent()) {
             choreRequest.setUser(foundUser.get());
+            // Add logic to check if this chore already exists by title
+             if(choreRepository.findByTitleAndUser(choreRequest.getTitle(), choreRequest.getUser()) != null) {
+                 return new GenericResponseBody("Chore already exists");
+             }
             return new ChoreResponseBody(choreRepository.save(choreRequest));
          }
         return null;
     }
 
-    public Chore getChoreById(Integer id) {
-        Optional<Chore> chore = choreRepository.findById(id);
-        if (chore.isPresent()) {
-            return chore.get();
-        }
-        return null;
+    // Get all Chores
+    public Set<GenericResponseBody> getAllChores() {
+        Iterable<Chore> chores = choreRepository.findAll();
+        Set<GenericResponseBody> choreResponseBodies = new HashSet<>();
+        chores.forEach(chore -> {choreResponseBodies.add(new ChoreResponseBody(chore));});
+        return choreResponseBodies;
     }
 
-    public ChoreResponseBody updateChore(Integer id, Chore choreRequest) {
+
+    // Get chore by id
+    public GenericResponseBody getChoreById(Integer id) {
+        Optional<Chore> chore = choreRepository.findById(id);
+        return chore.map(ChoreResponseBody::new).orElse(null);
+    }
+
+    // Update a chore
+    public GenericResponseBody updateChore(Integer id, Chore choreRequest) {
         Optional<Chore> chore = choreRepository.findById(id);
         if(chore.isPresent()) {
             Chore updatedChore = chore.get();
@@ -64,13 +76,13 @@ public class ChoreService {
         return null;
     }
 
-    public String deleteChoreById(Integer id) {
+    public GenericResponseBody deleteChoreById(Integer id) {
         Optional<Chore> chore = choreRepository.findById((id));
         if (chore.isPresent()) {
             choreRepository.delete(chore.get());
-            return "Chore deleted";
+            return new GenericResponseBody("Chore deleted successfully");
         }
-        return "Chore not found";
+        return new GenericResponseBody("Chore not found");
     }
 
 }

@@ -32,7 +32,7 @@ public class SeedDB implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Create 5 Users
+        // Create 3 Users
         IntStream.range(1, 4).forEach(i -> {
             User user = new User(
                     "User" + i,
@@ -42,16 +42,14 @@ public class SeedDB implements CommandLineRunner {
             );
             userRepository.save(user);
 
-            // Create 10 Chores for each User
+            // Create 3 Chores for each User
             IntStream.range(1, 4).forEach(j -> {
-                Duration duration = Duration.ofMinutes(j * 5L);
                 Chore chore = new Chore(
                         " Chore Title " + j,
                         "Chore Description " + j,
                         "Chore Recurrence " + j % 3,
                         "Chore Category " + j % 2,
-//                        duration.toMinutes(),
-                        duration,
+                        j*5L,
                         2,
                         user
                 );

@@ -1,59 +1,79 @@
 package ada.chore_api_v2.Chore;
 
+import ada.chore_api_v2.GenericResponseBody;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
+
+import java.util.Set;
 
 @RestController
 //@RequestMapping("/chores")
 public class ChoreController {
     private final ChoreService choreService;
+    private final View error;
 
-    public ChoreController(ChoreService choreService) {
+    public ChoreController(ChoreService choreService, View error) {
         this.choreService = choreService;
+        this.error = error;
     }
-
+    // Create new Chore
     @PostMapping("/users/{userId}/chores")
-    public ResponseEntity<ChoreResponseBody> addChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> createChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
+            return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        ChoreResponseBody newChore = choreService.createChore(userId,choreRequest);
+        GenericResponseBody newChore = choreService.createChore(userId,choreRequest);
         if(newChore == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody userNotFound = new GenericResponseBody("User not found");
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<ChoreResponseBody>(newChore, HttpStatus.CREATED);
+        if(newChore.getMessage() != null) {
+            return new ResponseEntity<>(newChore, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<GenericResponseBody>(newChore, HttpStatus.CREATED);
     }
 
+    //Get all chores
     @GetMapping("/chores")
-    public ResponseEntity<Iterable<Chore>> getAllChores() {
+    public ResponseEntity<Set<GenericResponseBody>> getAllChores() {
         return new ResponseEntity<>(choreService.getAllChores(), HttpStatus.OK);
     }
 
+    // Get a chore by id
     @GetMapping("/chores/{choreId}")
-    public ResponseEntity<Chore> getChoreById(@PathVariable Integer choreId) {
-        return new ResponseEntity<>(choreService.getChoreById(choreId), HttpStatus.OK);
+    public ResponseEntity<GenericResponseBody> getChoreById(@PathVariable Integer choreId) {
+        GenericResponseBody foundChore = choreService.getChoreById(choreId);
+        if(foundChore == null) {
+            GenericResponseBody choreNotFound = new GenericResponseBody("Chore not found");
+            return new ResponseEntity<>(choreNotFound, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(foundChore, HttpStatus.OK);
     }
 
+    // Update chore
     @PatchMapping("chores/{choreId}")
-    public ResponseEntity<ChoreResponseBody> updateChore(@PathVariable Integer choreId, @RequestBody Chore choreRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @RequestBody Chore choreRequest, BindingResult result) {
         if(result.hasErrors()) {
-            System.out.println(result.getAllErrors());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
+            return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        ChoreResponseBody updatedChore = choreService.updateChore( choreId, choreRequest);
+       GenericResponseBody updatedChore = choreService.updateChore( choreId, choreRequest);
         if(updatedChore == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            GenericResponseBody choreNotFound = new GenericResponseBody("Chore not found");
+            return new ResponseEntity<>(choreNotFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<ChoreResponseBody>(updatedChore, HttpStatus.OK);
+        return new ResponseEntity<GenericResponseBody>(updatedChore, HttpStatus.OK);
 
     }
-
+    // Delete chore
     @DeleteMapping("/chores/{choreId}")
-    public ResponseEntity<String> deleteChore(@PathVariable int choreId) {
+    public ResponseEntity<GenericResponseBody> deleteChore(@PathVariable int choreId) {
         return new ResponseEntity<>(choreService.deleteChoreById(choreId), HttpStatus.OK);
     }
 }
