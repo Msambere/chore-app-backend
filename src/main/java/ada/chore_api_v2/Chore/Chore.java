@@ -37,7 +37,7 @@ public class Chore {
     private String category;
 
     @Column(name = "duration", nullable = false)
-    private Duration duration;
+    private Long duration;
 
     @Column(name = "difficulty", nullable = false)
     @Min(1)
@@ -53,7 +53,7 @@ public class Chore {
 
     public Chore() {}
 
-    public Chore(String title, String description, String recurrence, String category, Duration duration, Integer difficulty, User user) {
+    public Chore(String title, String description, String recurrence, String category, Long duration, Integer difficulty, User user) {
         this.title = title;
         this.description = description;
         this.recurrence = recurrence;
@@ -99,11 +99,11 @@ public class Chore {
         this.category = category;
     }
 
-    public Duration getDuration() {
+    public Long getDuration() {
         return this.duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
