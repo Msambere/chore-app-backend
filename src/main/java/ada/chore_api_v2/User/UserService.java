@@ -27,6 +27,7 @@ public class UserService {
         }
         userRepository.save(user);
         UserResponseBody response = new UserResponseBody(userRepository.save(user));
+        response.setMessage("User created successfully");
         return response;
     }
 

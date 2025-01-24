@@ -28,7 +28,9 @@ public class ChoreService {
              if(choreRepository.findByTitleAndUser(choreRequest.getTitle(), choreRequest.getUser()) != null) {
                  return new GenericResponseBody("Chore already exists");
              }
-            return new ChoreResponseBody(choreRepository.save(choreRequest));
+             ChoreResponseBody newChore = new ChoreResponseBody(choreRepository.save(choreRequest));
+             newChore.setMessage("Chore created");
+            return newChore;
          }
         return null;
     }

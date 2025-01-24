@@ -61,7 +61,9 @@ public class MissionService {
             mission.setTotalUnredeemedPoints(missionRequest.getTotalUnredeemedPoints());
         }
         Mission updatedMission = missionRepository.save(mission);
-        return new MissionResponseBody(updatedMission);
+        MissionResponseBody responseBody = new MissionResponseBody(updatedMission);
+        responseBody.setMessage("Successfully updated Mission");
+        return responseBody;
     }
 
     // Delete a Mission by ID

@@ -45,6 +45,6 @@ public class MissonChoreResponseBody extends GenericResponseBody {
     }
 
     public void setCompleted(Boolean completed) {
-        isCompleted = completed;
+        this.isCompleted = completed;
     }
 }

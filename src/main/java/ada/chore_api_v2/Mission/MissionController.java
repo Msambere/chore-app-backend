@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 @RestController
@@ -35,7 +36,7 @@ public class MissionController {
     }
 
 
-    // Get all Missions
+    // Get all Missions - dev only
     @GetMapping("/missions")
     public ResponseEntity<Set<GenericResponseBody>> getAllMissions() {
         return new ResponseEntity<>(missionService.getAllMissions(), HttpStatus.OK);
@@ -47,6 +48,7 @@ public class MissionController {
         GenericResponseBody foundMission = missionService.getMissionById(missionId);
         if (foundMission == null) {
             GenericResponseBody missionNotFound = new GenericResponseBody("Mission not found");
+            return new ResponseEntity<>(missionNotFound, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(foundMission, HttpStatus.OK);
     }
@@ -64,7 +66,11 @@ public class MissionController {
     //delete a mission by ID
     @DeleteMapping("/missions/{missionId}")
     public ResponseEntity<GenericResponseBody> deleteMission(@PathVariable int missionId) {
-        return new ResponseEntity<GenericResponseBody>(missionService.deleteMissionById(missionId), HttpStatus.OK);
+        GenericResponseBody results = missionService.deleteMissionById(missionId);
+        if (Objects.equals(results.getMessage(), "Mission not found")) {
+            return new ResponseEntity<>(results, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
 }

@@ -26,7 +26,7 @@ public class MissionChoreController {
         this.missionChoreService = missionChoreService;
     }
 
-    // Create new ChoreMission
+    // Create new ChoreMission - Dev Only
     @PostMapping
     public ResponseEntity<GenericResponseBody> createMissionChore(
             @RequestParam Integer choreId,
@@ -36,7 +36,7 @@ public class MissionChoreController {
 
     }
 
-    // Get all ChoreMission
+    // Get all ChoreMission - Dev Only
     @GetMapping
     public ResponseEntity<Set<GenericResponseBody>> getAllMissionChores() {
         return new ResponseEntity<>(missionChoreService.getAllMissionChores(), HttpStatus.OK);
