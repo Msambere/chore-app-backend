@@ -16,6 +16,6 @@ public class HelloWorldController {
 
     @GetMapping("/")
     public String root() {
-        return "Welcome to the Chore App API!";
+        return "Welcome to the ChoreChamp App API!";
     }
 }
