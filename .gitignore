@@ -33,4 +33,4 @@ build/
 .vscode/
 
 # Ignore local configuration files
-applicationDev.properties
+src/main/resources/applicationDev.properties
