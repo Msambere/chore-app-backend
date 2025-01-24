@@ -34,7 +34,7 @@ public class ChoreController {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         if(newChore.getMessage() != null) {
-            return new ResponseEntity<>(newChore, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(newChore, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<GenericResponseBody>(newChore, HttpStatus.CREATED);
     }

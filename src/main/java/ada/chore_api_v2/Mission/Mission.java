@@ -64,9 +64,9 @@ public class Mission {
         this.user = user;
     }
 
-    public List<MissionChore> getChoreMissions() { return missionChores; }
+    public List<MissionChore> getMissionChores() { return missionChores; }
 
-    public void setChoreMissions(List<MissionChore> missionChores) { this.missionChores = missionChores; }
+    public void setMissionChores(List<MissionChore> missionChores) { this.missionChores = missionChores; }
 
     public String getRecurrence() {
         return recurrence;

@@ -26,10 +26,13 @@ public class MissionController {
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        MissionResponseBody newMission = missionService.createMission(userId, missionRequest);
+        GenericResponseBody newMission = missionService.createMission(userId, missionRequest);
         if (newMission == null) {
             GenericResponseBody userNotFound = new GenericResponseBody("User not found");
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+        if (newMission.getMessage() != null) {
+            return new ResponseEntity<>(newMission, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<GenericResponseBody>(newMission, HttpStatus.CREATED);
     }
@@ -50,6 +53,8 @@ public class MissionController {
         }
         return new ResponseEntity<>(foundMission, HttpStatus.OK);
     }
+
+
 
     // Update Mission:
     @PatchMapping("/missions/{missionId}")
