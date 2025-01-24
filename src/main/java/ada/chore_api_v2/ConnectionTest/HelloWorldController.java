@@ -13,4 +13,9 @@ public class HelloWorldController {
     public String helloWorld() {
         return "Hello World";
     }
+
+    @GetMapping("/")
+    public String root() {
+        return "Welcome to the ChoreChamp App API!";
+    }
 }
