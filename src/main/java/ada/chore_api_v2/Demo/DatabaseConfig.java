@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DatabaseConfig {
 
-    @Value("${DATABASE_URL}")
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
     @Bean
