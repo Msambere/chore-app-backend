@@ -127,6 +127,9 @@ public class MissionService {
             if (chore.getDuration() + currentLengthTime <= timeLimit) {
                 chores.add(chore);
                 currentLengthTime += chore.getDuration();
+                if (currentLengthTime == timeLimit){
+                    break;
+                }
             }
         }
         return chores;
