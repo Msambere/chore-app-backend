@@ -20,7 +20,7 @@ public class MissionService {
         this.userRepository = userRepository;
     }
 
-    // Create a Mission
+    // Create a Mission - Dev Only
     public MissionResponseBody createMission(int userId, Mission missionRequest) {
         Optional<User> foundUser = userRepository.findById(userId);
         System.out.println(foundUser.isPresent());
@@ -31,7 +31,7 @@ public class MissionService {
         return null;
     }
 
-    // Get all Missions
+    // Get all Missions - Dev Only
     public Set<GenericResponseBody> getAllMissions() {
         Iterable<Mission> missions = missionRepository.findAll();
         Set<GenericResponseBody> missionResponseBodies = new HashSet<>();
