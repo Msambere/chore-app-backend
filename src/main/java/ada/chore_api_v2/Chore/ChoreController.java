@@ -12,14 +12,11 @@ import java.util.Objects;
 import java.util.Set;
 
 @RestController
-//@RequestMapping("/chores")
 public class ChoreController {
     private final ChoreService choreService;
-    private final View error;
 
     public ChoreController(ChoreService choreService, View error) {
         this.choreService = choreService;
-        this.error = error;
     }
     // Create new Chore
     @PostMapping("/users/{userId}/chores")

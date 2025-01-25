@@ -24,7 +24,6 @@ public class ChoreService {
          Optional<User> foundUser =userRepository.findById(userId);
          if(foundUser.isPresent()) {
             choreRequest.setUser(foundUser.get());
-            // Add logic to check if this chore already exists by title
              if(choreRepository.findByTitleAndUser(choreRequest.getTitle(), choreRequest.getUser()) != null) {
                  return new GenericResponseBody("Chore already exists");
              }

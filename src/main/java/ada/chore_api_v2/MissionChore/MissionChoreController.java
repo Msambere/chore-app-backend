@@ -1,18 +1,12 @@
 package ada.chore_api_v2.MissionChore;
 
-import ada.chore_api_v2.Chore.Chore;
 import ada.chore_api_v2.Chore.ChoreRepository;
-import ada.chore_api_v2.Chore.ChoreService;
 import ada.chore_api_v2.GenericResponseBody;
-import ada.chore_api_v2.Mission.Mission;
 import ada.chore_api_v2.Mission.MissionRepository;
-import ada.chore_api_v2.Mission.MissionService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -47,10 +41,8 @@ public class MissionChoreController {
     public ResponseEntity<GenericResponseBody> updateMissionChore(
             @RequestParam Integer missionId,
             @RequestParam Integer choreId
-//            @RequestBody Boolean isCompleted
     ) {
 
-//        GenericResponseBody updatedMissionChore = missionChoreService.updateMissionChore(missionId, choreId, isCompleted);
         GenericResponseBody updatedMissionChore = missionChoreService.updateMissionChore(missionId, choreId);
 
         if (updatedMissionChore == null) {

@@ -2,7 +2,6 @@ package ada.chore_api_v2.MissionChore;
 
 import ada.chore_api_v2.Chore.Chore;
 import ada.chore_api_v2.Mission.Mission;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

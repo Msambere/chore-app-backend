@@ -12,9 +12,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -72,67 +71,47 @@ public class Chore {
         this.user = user;
     }
 
-    public int getId() {
-        return this.id;
-    }
+    public int getId() { return this.id; }
 
-    public String getTitle() {
-        return this.title;
-    }
+    public String getTitle() { return this.title;}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getRecurrence() {
-        return this.recurrence;
-    }
+    public String getRecurrence() { return this.recurrence; }
 
-    public void setRecurrence(String recurrence) {
-        this.recurrence = recurrence;
-    }
+    public void setRecurrence(String recurrence) { this.recurrence = recurrence; }
 
-    public String getCategory() {
-        return this.category;
-    }
+    public String getCategory() { return this.category; }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setCategory(String category) { this.category = category; }
 
-    public Long getDuration() {
-        return this.duration;
-    }
+    public Long getDuration() { return this.duration; }
 
-    public void setDuration(Long duration) {
-        this.duration = duration;
-    }
+    public void setDuration(Long duration) { this.duration = duration; }
 
-    public Integer getDifficulty() {
-        return this.difficulty;
-    }
+    public Integer getDifficulty() { return this.difficulty; }
 
-    public void setDifficulty(Integer difficulty) {
-        this.difficulty = difficulty;
-    }
+    public void setDifficulty(Integer difficulty) { this.difficulty = difficulty; }
 
-    public User getUser() {
-        return this.user;
-    }
+    public User getUser() { return this.user; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public void setUser(User user) { this.user = user; }
 
     public Set<MissionChore> getChoreMissions() { return this.missionChores; }
 
     public void setChoreMissions(Set<MissionChore> missionChores) { this.missionChores = missionChores; }
+
+    public LocalDateTime getLastCompletedDate() {
+       LocalDateTime latestDate = null;
+        for (MissionChore missionChore : missionChores) {
+            LocalDateTime missionDate = missionChore.getMission().getDateStarted();
+            if (latestDate == null){ latestDate = missionDate; }
+            else if (latestDate.isBefore(missionDate)) {latestDate = missionDate;}
+        }
+        return latestDate;
+    }
 }

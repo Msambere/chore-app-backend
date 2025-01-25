@@ -1,20 +1,21 @@
 package ada.chore_api_v2.MissionChore;
 
 import ada.chore_api_v2.GenericResponseBody;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
-public class MissonChoreResponseBody extends GenericResponseBody {
+public class MissionChoreResponseBody extends GenericResponseBody {
     private Integer missionId;
     private Integer choreId;
     private String choreName;
     private Long duration;
+    private Integer points;
     private Boolean isCompleted;
 
-    public MissonChoreResponseBody(MissionChore missionChore) {
+    public MissionChoreResponseBody(MissionChore missionChore) {
         this.missionId = missionChore.getMission().getId();
         this.choreId = missionChore.getChore().getId();
         this.choreName = missionChore.getChore().getTitle();
         this.duration = missionChore.getChore().getDuration();
+        this.points = missionChore.getChore().getDifficulty();
         this.isCompleted = missionChore.getIsCompleted();
     }
 
@@ -40,13 +41,17 @@ public class MissonChoreResponseBody extends GenericResponseBody {
         this.choreName = choreName;
     }
 
-    public Long getDuration() { return duration;}
-
-    public void setDuration(Long duration) { this.duration = duration;}
-
     public Boolean getCompleted() {
         return isCompleted;
     }
 
     public void setCompleted(Boolean completed) {this.isCompleted = completed;}
+
+    public Long getDuration() { return duration;}
+
+    public void setDuration(Long duration) { this.duration = duration;}
+
+    public Integer getPoints() { return points; }
+
+    public void setPoints(Integer points) { this.points = points;}
 }
