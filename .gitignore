@@ -33,4 +33,4 @@ build/
 ### VS Code ###
 .vscode/
 
-!**src/main/java/**/SeedDB
+src/main/java/ada/chore_api_v2/SeedDB.java
