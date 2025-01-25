@@ -27,7 +27,7 @@ public class MissionChoreService {
         this.missionRepository = missionRepository;
     }
 
-    //create new ChoreMission
+    //create new MissionChore - Dev only
     public ResponseEntity<GenericResponseBody> createMissionChore( Integer missionId, Integer choreId) {
         // mission Id validation
         Optional<Mission> missionOptional = missionRepository.findById(missionId);
@@ -53,15 +53,15 @@ public class MissionChoreService {
         MissionChore missionChore = new MissionChore(mission, chore);
         missionChoreRepository.save(missionChore);
 
-        return new ResponseEntity<GenericResponseBody>(new MissonChoreResponseBody(missionChore), HttpStatus.CREATED);
+        return new ResponseEntity<GenericResponseBody>(new MissionChoreResponseBody(missionChore), HttpStatus.CREATED);
     }
 
 
-    // get all ChoreMissions
+    // get all Mission chores - Dev Only
     public Set<GenericResponseBody> getAllMissionChores()  {
         Iterable<MissionChore> missionChores = missionChoreRepository.findAll();
         Set<GenericResponseBody> missionChoreResponseBodies = new HashSet<>();
-        missionChores.forEach(missionChore -> missionChoreResponseBodies.add(new MissonChoreResponseBody(missionChore)));
+        missionChores.forEach(missionChore -> missionChoreResponseBodies.add(new MissionChoreResponseBody(missionChore)));
         return missionChoreResponseBodies;
     }
 
@@ -73,7 +73,7 @@ public class MissionChoreService {
         if (missionChoreOptional.isPresent()) {
             MissionChore missionChore = missionChoreOptional.get();
             missionChore.setIsCompleted(!missionChore.getIsCompleted());
-            return new MissonChoreResponseBody(missionChoreRepository.save(missionChore));
+            return new MissionChoreResponseBody(missionChoreRepository.save(missionChore));
         }
         return null;
     }
