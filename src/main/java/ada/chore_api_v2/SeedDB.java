@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 
@@ -32,8 +34,33 @@ public class SeedDB implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        //Create user 1
+        User Michelle = new User("Michelle", "Obmama", "FirstLady4eva", "mObama@gmail.com");
+        userRepository.save(Michelle);
+
+        // Give user 1 chores
+        List<Chore> choreList = new ArrayList<>();
+        choreList.add(new Chore("Sweep Floor", "description", "Daily", "Kitchen", 10L, 1, Michelle));
+        choreList.add(new Chore("Mop Floor", "description", "Daily", "Kitchen", 25L, 3, Michelle));
+        choreList.add(new Chore("Wash Dishes", "description", "Daily", "Kitchen", 15L, 2, Michelle));
+        choreList.add(new Chore("Wash 1 load of laundry", "start one load of laundry", "Daily", "Misc", 5L, 1, Michelle));
+        choreList.add(new Chore("Make bed", "description", "Daily", "Bedroom", 5L, 1, Michelle));
+        choreList.add(new Chore("Meal prep", "description", "Weekly", "Misc", 30L, 3, Michelle));
+        choreList.add(new Chore("Clean Bathroom", "description", "Weekly", "Misc", 30L, 3, Michelle));
+        choreList.add(new Chore("Take out the garbage", "description", "Weekly", "Misc", 10L, 2, Michelle));
+        choreList.add(new Chore("Clean gutters", "description", "Monthly", "Outdoors", 40L, 3, Michelle));
+        choreList.add(new Chore("Mow the lawn", "description", "Weekly", "Outdoors", 40L, 3, Michelle));
+        choreList.add(new Chore("Dust ceiling fans", "description", "Monthly", "Misc", 25L, 2, Michelle));
+        choreList.add(new Chore("Clean Fridge", "description", "Monthly", "Kitchen", 25L, 3, Michelle));
+        choreList.add(new Chore("Fold Laundry", "description", "Weekly", "Misc", 15L, 1, Michelle));
+        choreRepository.saveAllAndFlush(choreList);
+
+        // Give user 1 rewards
+
+
+
         // Create 3 Users
-        IntStream.range(1, 4).forEach(i -> {
+        IntStream.range(2, 5).forEach(i -> {
             User user = new User(
                     "User" + i,
                     "Last" + i,
