@@ -41,9 +41,7 @@ public class MissionChoreResponseBody extends GenericResponseBody {
         this.choreName = choreName;
     }
 
-    public Boolean getCompleted() {
-        return isCompleted;
-    }
+    public Boolean getCompleted() { return isCompleted; }
 
     public void setCompleted(Boolean completed) {this.isCompleted = completed;}
 
