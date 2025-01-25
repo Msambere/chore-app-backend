@@ -8,6 +8,7 @@ import ada.chore_api_v2.MissionChore.MissionChoreRepository;
 import ada.chore_api_v2.User.User;
 import ada.chore_api_v2.User.UserRepository;
 import org.springframework.stereotype.Service;
+import ada.chore_api_v2.MissionChore.MissionChoreResponseBody;
 
 import java.util.*;
 
@@ -29,7 +30,6 @@ public class MissionService {
     // Create a Mission
     public GenericResponseBody createMission(int userId, Mission missionRequest) {
         Optional<User> foundUser = userRepository.findById(userId);
-        System.out.println(foundUser.isPresent());
         if (foundUser.isPresent()) {
             missionRequest.setUser(foundUser.get());
             Mission newMission = missionRepository.save(missionRequest);
@@ -38,11 +38,15 @@ public class MissionService {
             if(choreSet.isEmpty()){
                 return new GenericResponseBody("No matching chores found");
             }
-
+            Set<GenericResponseBody> missionChoreResponses = new HashSet<>();
             for (Chore chore : choreSet) {
-                missionChoreRepository.save(new MissionChore(newMission, chore));
+                MissionChore newMissionChore = new MissionChore(newMission,chore);
+                missionChoreRepository.save(newMissionChore);
+                missionChoreResponses.add(new MissionChoreResponseBody(newMissionChore));
             }
-            return new MissionResponseBody(newMission);
+            MissionResponseBody newMissionResponse = new MissionResponseBody(newMission);
+            newMissionResponse.setMissionChores(missionChoreResponses);
+            return newMissionResponse;
         }
         return null;
     }
@@ -109,10 +113,10 @@ public class MissionService {
         // Sort List from oldest to newest
         Collections.sort(choreOptions, Comparator.comparing(Chore::getLastCompletedDate));
 
-        // Debugging: Print the sorted list
-        for (Chore chore : choreOptions) {
-            System.out.println(chore.getTitle() + ": " + chore.getLastCompletedDate());
-        }
+        // Debugging: Print the sorted list <- all chores have same data
+//        for (Chore chore : choreOptions) {
+//            System.out.println(chore.getTitle() + ": " + chore.getLastCompletedDate());
+//        }
 
         // Add sorted chores to set without exceeding timeLimit
         if (timeLimit == null) {

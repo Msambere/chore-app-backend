@@ -1,12 +1,16 @@
 package ada.chore_api_v2.Mission;
 
 
+import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.MissionChore.MissionChore;
+import ada.chore_api_v2.MissionChore.MissionChoreResponseBody;
 import ada.chore_api_v2.User.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -110,5 +114,15 @@ public class Mission {
 
     public void setTimeElapsed(Long timeElapsed) {
         this.timeElapsed = timeElapsed;
+    }
+
+    public Set<GenericResponseBody> getMissionChoreResponses() {
+        Set<GenericResponseBody> MissionChoreResponses= new HashSet<>();
+        System.out.println("Length of mission.missionchoreList: " + missionChores.size());
+        for (MissionChore missionChore : this.missionChores) {
+            MissionChoreResponses.add(new MissionChoreResponseBody(missionChore));
+        }
+        System.out.println("Mission chore responses length: " + MissionChoreResponses.size());
+        return MissionChoreResponses;
     }
 }
