@@ -7,8 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @RestController
@@ -35,7 +34,7 @@ public class UserController {
         return new ResponseEntity<GenericResponseBody>(newUser, HttpStatus.CREATED);
     }
 
-    // Get all users
+    // Get all users - Dev Only
     @GetMapping()
     public ResponseEntity<Set<GenericResponseBody>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
@@ -88,6 +87,10 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<GenericResponseBody> deleteUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
+        GenericResponseBody results = userService.deleteUserById(userId);
+        if (Objects.equals(results.getMessage(), "User not found")) {
+            return new ResponseEntity<>(results, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 }

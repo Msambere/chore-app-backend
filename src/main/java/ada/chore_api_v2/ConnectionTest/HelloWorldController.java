@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloWorldController {
     public HelloWorldController() {}
 
-    @GetMapping
+    @GetMapping()
     public String root() {
         return "Welcome to the ChoreChamp App API!";
     }

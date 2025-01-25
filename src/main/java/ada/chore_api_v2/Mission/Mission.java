@@ -88,9 +88,7 @@ public class Mission {
         this.category = category;
     }
 
-    public LocalDateTime getDateStarted() {
-        return dateStarted;
-    }
+    public LocalDateTime getDateStarted() { return dateStarted;}
 
     public void setDateStarted(LocalDateTime dateStarted) {
         this.dateStarted = dateStarted;
@@ -100,11 +98,9 @@ public class Mission {
         return totalUnredeemedPoints;
     }
 
-    public void setTotalUnredeemedPoints(int totalUnredeemedPoints) {
-        this.totalUnredeemedPoints = totalUnredeemedPoints;
-    }
-    public Long getTimeLimit() { return timeLimit; }
+    public void setTotalUnredeemedPoints(int totalUnredeemedPoints) { this.totalUnredeemedPoints = totalUnredeemedPoints; }
 
+    public Long getTimeLimit() { return timeLimit; }
 
     public void setTimeLimit(Long timeLimit) { this.timeLimit = timeLimit; }
 

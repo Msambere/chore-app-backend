@@ -19,9 +19,7 @@ public class MissionChoreResponseBody extends GenericResponseBody {
         this.isCompleted = missionChore.getIsCompleted();
     }
 
-    public Integer getMissionId() {
-        return missionId;
-    }
+    public Integer getMissionId() { return missionId;}
 
     public void setMissionId(Integer missionId) {
         this.missionId = missionId;
@@ -43,13 +41,9 @@ public class MissionChoreResponseBody extends GenericResponseBody {
         this.choreName = choreName;
     }
 
-    public Boolean getCompleted() {
-        return isCompleted;
-    }
+    public Boolean getCompleted() { return isCompleted; }
 
-    public void setCompleted(Boolean completed) {
-        isCompleted = completed;
-    }
+    public void setCompleted(Boolean completed) {this.isCompleted = completed;}
 
     public Long getDuration() { return duration;}
 

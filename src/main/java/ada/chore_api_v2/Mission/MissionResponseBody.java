@@ -56,8 +56,5 @@ public class MissionResponseBody extends GenericResponseBody {
     public Set<GenericResponseBody> getMissionChores() {
         System.out.println("Number of Mission Chores: " + missionChores.size());
         return missionChores;
-
-
     }
-//    public Set<GenericResponseBody> getMissionChores() {return missionChores;}
 }

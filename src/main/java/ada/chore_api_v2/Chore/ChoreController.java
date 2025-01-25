@@ -8,22 +8,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.View;
 
+import java.util.Objects;
 import java.util.Set;
 
 @RestController
-//@RequestMapping("/chores")
 public class ChoreController {
     private final ChoreService choreService;
-    private final View error;
 
     public ChoreController(ChoreService choreService, View error) {
         this.choreService = choreService;
-        this.error = error;
     }
     // Create new Chore
     @PostMapping("/users/{userId}/chores")
     public ResponseEntity<GenericResponseBody> createChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
@@ -32,19 +31,19 @@ public class ChoreController {
             GenericResponseBody userNotFound = new GenericResponseBody("User not found");
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
-        if(newChore.getMessage() != null) {
+        if(Objects.equals(newChore.getMessage(), "Chore already exists")) {
             return new ResponseEntity<>(newChore, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<GenericResponseBody>(newChore, HttpStatus.CREATED);
     }
 
-    //Get all chores
+    //Get all chores - for dev only
     @GetMapping("/chores")
     public ResponseEntity<Set<GenericResponseBody>> getAllChores() {
         return new ResponseEntity<>(choreService.getAllChores(), HttpStatus.OK);
     }
 
-    // Get a chore by id
+    // Get a chore by id - for dev only
     @GetMapping("/chores/{choreId}")
     public ResponseEntity<GenericResponseBody> getChoreById(@PathVariable Integer choreId) {
         GenericResponseBody foundChore = choreService.getChoreById(choreId);
@@ -67,12 +66,17 @@ public class ChoreController {
             GenericResponseBody choreNotFound = new GenericResponseBody("Chore not found");
             return new ResponseEntity<>(choreNotFound, HttpStatus.NOT_FOUND);
         }
+        updatedChore.setMessage("Chore updated successfully");
         return new ResponseEntity<GenericResponseBody>(updatedChore, HttpStatus.OK);
 
     }
     // Delete chore
     @DeleteMapping("/chores/{choreId}")
     public ResponseEntity<GenericResponseBody> deleteChore(@PathVariable int choreId) {
-        return new ResponseEntity<>(choreService.deleteChoreById(choreId), HttpStatus.OK);
+        GenericResponseBody results = choreService.deleteChoreById(choreId);
+        if (Objects.equals(results.getMessage(), "Chore not found")) {
+            return new ResponseEntity<>(results, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 }

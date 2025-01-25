@@ -27,7 +27,7 @@ public class MissionService {
         this.missionChoreRepository = missionChoreRepository;
     }
 
-    // Create a Mission
+    // Create a Mission - Dev Only
     public GenericResponseBody createMission(int userId, Mission missionRequest) {
         Optional<User> foundUser = userRepository.findById(userId);
         if (foundUser.isPresent()) {
@@ -51,7 +51,7 @@ public class MissionService {
         return null;
     }
 
-    // Get all Missions
+    // Get all Missions - Dev Only
     public Set<GenericResponseBody> getAllMissions() {
         Iterable<Mission> missions = missionRepository.findAll();
         Set<GenericResponseBody> missionResponseBodies = new HashSet<>();
@@ -81,7 +81,9 @@ public class MissionService {
             mission.setTotalUnredeemedPoints(missionRequest.getTotalUnredeemedPoints());
         }
         Mission updatedMission = missionRepository.save(mission);
-        return new MissionResponseBody(updatedMission);
+        MissionResponseBody responseBody = new MissionResponseBody(updatedMission);
+        responseBody.setMessage("Successfully updated Mission");
+        return responseBody;
     }
 
     // Delete a Mission by ID
