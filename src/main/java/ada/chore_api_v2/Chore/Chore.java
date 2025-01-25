@@ -1,5 +1,6 @@
 package ada.chore_api_v2.Chore;
 
+import ada.chore_api_v2.Mission.Mission;
 import ada.chore_api_v2.User.User;
 import ada.chore_api_v2.MissionChore.MissionChore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,6 +14,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,4 +138,14 @@ public class Chore {
     public Set<MissionChore> getChoreMissions() { return this.missionChores; }
 
     public void setChoreMissions(Set<MissionChore> missionChores) { this.missionChores = missionChores; }
+
+    public LocalDateTime getLastCompletedDate() {
+       LocalDateTime latestDate = null;
+        for (MissionChore missionChore : missionChores) {
+            LocalDateTime missionDate = missionChore.getMission().getDateStarted();
+            if (latestDate == null){ latestDate = missionDate; }
+            else if (latestDate.isBefore(missionDate)) {latestDate = missionDate;}
+        }
+        return latestDate;
+    }
 }

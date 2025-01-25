@@ -30,7 +30,7 @@ public class UserController {
         GenericResponseBody newUser = userService.createUser(user);
         if (newUser == null) {
             GenericResponseBody userAlreadyExists = new GenericResponseBody("User already exists");
-            return new ResponseEntity<GenericResponseBody>(userAlreadyExists, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<GenericResponseBody>(userAlreadyExists, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<GenericResponseBody>(newUser, HttpStatus.CREATED);
     }

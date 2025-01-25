@@ -24,7 +24,6 @@ public class ChoreController {
     @PostMapping("/users/{userId}/chores")
     public ResponseEntity<GenericResponseBody> createChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
@@ -34,7 +33,7 @@ public class ChoreController {
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
         if(newChore.getMessage() != null) {
-            return new ResponseEntity<>(newChore, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(newChore, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<GenericResponseBody>(newChore, HttpStatus.CREATED);
     }
