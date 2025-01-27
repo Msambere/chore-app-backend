@@ -1,12 +1,16 @@
 package ada.chore_api_v2.Mission;
 
 
+import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.MissionChore.MissionChore;
+import ada.chore_api_v2.MissionChore.MissionChoreResponseBody;
 import ada.chore_api_v2.User.User;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -18,7 +22,7 @@ public class Mission {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // Foreign key column
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -64,9 +68,9 @@ public class Mission {
         this.user = user;
     }
 
-    public List<MissionChore> getChoreMissions() { return missionChores; }
+    public List<MissionChore> getMissionChores() { return missionChores; }
 
-    public void setChoreMissions(List<MissionChore> missionChores) { this.missionChores = missionChores; }
+    public void setMissionChores(List<MissionChore> missionChores) { this.missionChores = missionChores; }
 
     public String getRecurrence() {
         return recurrence;
@@ -84,9 +88,7 @@ public class Mission {
         this.category = category;
     }
 
-    public LocalDateTime getDateStarted() {
-        return dateStarted;
-    }
+    public LocalDateTime getDateStarted() { return dateStarted;}
 
     public void setDateStarted(LocalDateTime dateStarted) {
         this.dateStarted = dateStarted;
@@ -96,11 +98,9 @@ public class Mission {
         return totalUnredeemedPoints;
     }
 
-    public void setTotalUnredeemedPoints(int totalUnredeemedPoints) {
-        this.totalUnredeemedPoints = totalUnredeemedPoints;
-    }
-    public Long getTimeLimit() { return timeLimit; }
+    public void setTotalUnredeemedPoints(int totalUnredeemedPoints) { this.totalUnredeemedPoints = totalUnredeemedPoints; }
 
+    public Long getTimeLimit() { return timeLimit; }
 
     public void setTimeLimit(Long timeLimit) { this.timeLimit = timeLimit; }
 
@@ -110,5 +110,15 @@ public class Mission {
 
     public void setTimeElapsed(Long timeElapsed) {
         this.timeElapsed = timeElapsed;
+    }
+
+    public Set<GenericResponseBody> getMissionChoreResponses() {
+        Set<GenericResponseBody> MissionChoreResponses= new HashSet<>();
+        System.out.println("Length of mission.missionchoreList: " + missionChores.size());
+        for (MissionChore missionChore : this.missionChores) {
+            MissionChoreResponses.add(new MissionChoreResponseBody(missionChore));
+        }
+        System.out.println("Mission chore responses length: " + MissionChoreResponses.size());
+        return MissionChoreResponses;
     }
 }

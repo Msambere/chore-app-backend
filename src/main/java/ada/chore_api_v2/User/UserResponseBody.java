@@ -1,11 +1,11 @@
 package ada.chore_api_v2.User;
 
-import ada.chore_api_v2.Chore.ChoreResponseBody;
 import ada.chore_api_v2.GenericResponseBody;
 
 import java.util.Set;
 
 public class UserResponseBody extends GenericResponseBody {
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -16,6 +16,7 @@ public class UserResponseBody extends GenericResponseBody {
 
 
     public UserResponseBody(User user) {
+        this.userId = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
@@ -24,51 +25,29 @@ public class UserResponseBody extends GenericResponseBody {
         this.missions = user.getMissionResponses();
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public Integer getUserId() { return userId;}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getFirstName() { return firstName;}
 
-    public String getLastName() {
-        return lastName;
-    }
+    public void setFirstName(String firstName) { this.firstName = firstName;}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public String getLastName() { return lastName;}
 
-    public String getEmail() {
-        return email;
-    }
+    public void setLastName(String lastName) { this.lastName = lastName;}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail() { return email;}
 
-    public String getUsername() {
-        return username;
-    }
+    public void setEmail(String email) { this.email = email;}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getUsername() { return username;}
 
-    public Set<GenericResponseBody> getChores() {
-        return chores;
-    }
+    public void setUsername(String username) { this.username = username;}
 
-    public void setChores(Set<GenericResponseBody> chores) {
-        this.chores = chores;
-    }
+    public Set<GenericResponseBody> getChores() { return chores;}
 
-    public Set<GenericResponseBody> getMissions() {
-        return missions;
-    }
+    public void setChores(Set<GenericResponseBody> chores) { this.chores = chores;}
 
-    public void setMissions(Set<GenericResponseBody> missions) {
-        this.missions = missions;
-    }
+    public Set<GenericResponseBody> getMissions() { return missions;}
+
+    public void setMissions(Set<GenericResponseBody> missions) { this.missions = missions;}
 }

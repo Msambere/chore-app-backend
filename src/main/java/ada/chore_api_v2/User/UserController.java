@@ -7,8 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
-import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @RestController
@@ -30,12 +29,12 @@ public class UserController {
         GenericResponseBody newUser = userService.createUser(user);
         if (newUser == null) {
             GenericResponseBody userAlreadyExists = new GenericResponseBody("User already exists");
-            return new ResponseEntity<GenericResponseBody>(userAlreadyExists, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<GenericResponseBody>(userAlreadyExists, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<GenericResponseBody>(newUser, HttpStatus.CREATED);
     }
 
-    // Get all users
+    // Get all users - Dev Only
     @GetMapping()
     public ResponseEntity<Set<GenericResponseBody>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
@@ -64,7 +63,14 @@ public class UserController {
         return new ResponseEntity<>(userService.getMissionsByUserId(userId), HttpStatus.OK);
     }
 
+    // Get all categories of one user
+    @GetMapping("/{userId}/categories")
+    public ResponseEntity<Set<String>> getCategoriesByUserId(@PathVariable int userId) {
+        return userService.getUserCategories(userId);
 
+    }
+
+    // Update User
     @PatchMapping("/{userId}")
     public ResponseEntity<GenericResponseBody> updateUser(@PathVariable int userId, @RequestBody User userRequest, BindingResult result) {
         if(result.hasErrors()) {
@@ -81,6 +87,10 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<GenericResponseBody> deleteUserById(@PathVariable int userId) {
-        return new ResponseEntity<>(userService.deleteUserById(userId), HttpStatus.OK);
+        GenericResponseBody results = userService.deleteUserById(userId);
+        if (Objects.equals(results.getMessage(), "User not found")) {
+            return new ResponseEntity<>(results, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 }

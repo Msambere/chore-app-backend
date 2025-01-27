@@ -5,8 +5,6 @@ import ada.chore_api_v2.Chore.ChoreResponseBody;
 import ada.chore_api_v2.GenericResponseBody;
 import ada.chore_api_v2.Mission.Mission;
 import ada.chore_api_v2.Mission.MissionResponseBody;
-import ada.chore_api_v2.MissionChore.MissionChore;
-import ada.chore_api_v2.UserReward.UserReward;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -120,6 +118,14 @@ public class User {
             missionResponses.add(new MissionResponseBody(mission));
         }
         return missionResponses;
+    }
+
+    public Set<String> getChoreCategories() {
+        Set<String> choreCategories = new HashSet<>();
+        for(Chore chore : this.chores) {
+            choreCategories.add(chore.getCategory());
+        }
+        return choreCategories;
     }
 }
 

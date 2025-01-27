@@ -1,11 +1,11 @@
 package ada.chore_api_v2.Reward;
 
-import ada.chore_api_v2.UserReward.UserReward;
+import ada.chore_api_v2.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.validation.Valid;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "rewards")
@@ -24,16 +24,24 @@ public class Reward {
     @Column(name = "in_mission", nullable = false)
     private Boolean inMission;
 
-    @OneToMany(mappedBy ="reward", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Column(name = "points_needed", nullable = false)
+    private Integer pointsNeeded;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Set<UserReward> userRewards = new HashSet<>();
+    @Valid
+    private User user;
 
     public Reward() {}
 
-    public Reward(String name, String description, Boolean inMission) {
+    public Reward(String name, String description, Boolean inMission, Integer pointsNeeded, User user) {
         this.name = name;
         this.description = description;
         this.inMission = inMission;
+        this.pointsNeeded = pointsNeeded;
+        this.user = user;
     }
 
     // Getters and setters
@@ -53,7 +61,11 @@ public class Reward {
 
     public void setInMission(Boolean inMission) { this.inMission = inMission; }
 
-    public Set<UserReward> getUserRewards() { return userRewards; }
+    public Integer getPointsNeeded() { return pointsNeeded; }
 
-    public void setUserRewards(Set<UserReward> userRewards) { this.userRewards = userRewards; }
+    public void setPointsNeeded(Integer pointsNeeded) { this.pointsNeeded = pointsNeeded; }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }
