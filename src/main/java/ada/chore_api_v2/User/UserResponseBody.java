@@ -12,6 +12,7 @@ public class UserResponseBody extends GenericResponseBody {
     private String username;
     private Set<GenericResponseBody> chores;
     private Set<GenericResponseBody> missions;
+    private Set<GenericResponseBody> rewards;
 
 
 
@@ -23,6 +24,7 @@ public class UserResponseBody extends GenericResponseBody {
         this.username = user.getUsername();
         this.chores = user.getChoreResponses();
         this.missions = user.getMissionResponses();
+        this.rewards = user.getRewardResponses();
     }
 
     public Integer getUserId() { return userId;}
@@ -50,4 +52,8 @@ public class UserResponseBody extends GenericResponseBody {
     public Set<GenericResponseBody> getMissions() { return missions;}
 
     public void setMissions(Set<GenericResponseBody> missions) { this.missions = missions;}
+
+    public Set<GenericResponseBody> getRewards() { return rewards; }
+
+    public void setRewards(Set<GenericResponseBody> rewards) { this.rewards = rewards; }
 }
