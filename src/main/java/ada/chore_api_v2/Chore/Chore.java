@@ -112,6 +112,9 @@ public class Chore {
             if (latestDate == null){ latestDate = missionDate; }
             else if (latestDate.isBefore(missionDate)) {latestDate = missionDate;}
         }
+        if (latestDate == null) {
+            System.out.println("Chore has never been assigned to mission");
+            latestDate = LocalDateTime.now(); }
         return latestDate;
     }
 }
