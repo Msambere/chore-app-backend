@@ -91,6 +91,7 @@ public class RewardService {
         }
         return new GenericResponseBody("Reward not found");
     }
+
     // Delete a reward
     public GenericResponseBody deleteRewardById(int rewardId) {
         Optional<Reward> reward = rewardRepository.findById(rewardId);
