@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/missionchores")
 public class MissionChoreController {
