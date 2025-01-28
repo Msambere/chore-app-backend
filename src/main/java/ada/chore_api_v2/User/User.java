@@ -32,7 +32,7 @@ public class User {
     @NotBlank
     private String username;
 
-    @Column(name = "email", nullable = false)
+    @Column(name="email", nullable = false)
     @Email
     private String email;
 
@@ -43,6 +43,7 @@ public class User {
     @OneToMany(mappedBy ="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
     private Set<Mission> missions = new HashSet<>();
+
 
     public User(String firstName, String lastName, String username, String email) {
         this.firstName = firstName;
@@ -56,7 +57,6 @@ public class User {
     public int getId() {
         return id;
     }
-
     public String getFirstName() {
         return firstName;
     }
@@ -77,11 +77,17 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) { this.username = username;}
+    public String getEmail() {
+        return email;
+    }
 
-    public String getEmail() { return email;}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public void setEmail(String email) { this.email = email;}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Set<Chore> getChores() {
         return chores;
