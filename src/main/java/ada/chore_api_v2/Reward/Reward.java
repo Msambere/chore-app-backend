@@ -15,10 +15,10 @@ public class Reward {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = true)
+    @Column(name = "description", nullable = true)
     private String description;
 
     @Column(name = "in_mission", nullable = false)

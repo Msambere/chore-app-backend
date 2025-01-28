@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -14,9 +16,11 @@ import java.util.Set;
 public class RewardController {
 
     private final RewardService rewardService;
+    private final RewardRepository rewardRepository;
 
-    public RewardController(RewardService rewardService) {
+    public RewardController(RewardService rewardService, RewardRepository rewardRepository) {
         this.rewardService = rewardService;
+        this.rewardRepository = rewardRepository;
     }
 
     // Create new Reward - front end and dev
@@ -44,8 +48,15 @@ public class RewardController {
 
     // Get all rewards -dev only
     @GetMapping("/rewards")
-    public ResponseEntity<Set<GenericResponseBody>> getAllRewards() {
-        return new ResponseEntity<>(rewardService.getAllRewards(), HttpStatus.OK);
+    public Set<GenericResponseBody> getAllRewards() {
+        Iterable<Reward> rewards = rewardRepository.findAll();
+        Set<GenericResponseBody> rewardResponses = new HashSet<>();
+
+        for (Reward reward : rewards) {
+            rewardResponses.add(new RewardResponseBody(reward));
+        }
+
+        return rewardResponses;
     }
 
     // Get rewards by user ID - front end and dev
@@ -73,7 +84,6 @@ public class RewardController {
     // Update reward - front end  and dev
     @PatchMapping("/rewards/{rewardId}")
     public ResponseEntity<GenericResponseBody> updateReward(
-            @PathVariable int userId,
             @PathVariable int rewardId,
             @Valid @RequestBody Reward rewardRequest,
             BindingResult result) {
@@ -82,13 +92,10 @@ public class RewardController {
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
-        GenericResponseBody updatedReward = rewardService.updateReward(userId, rewardId, rewardRequest);
+        GenericResponseBody updatedReward = rewardService.updateReward(rewardId, rewardRequest);
         if (updatedReward == null) {
             GenericResponseBody rewardNotFound = new GenericResponseBody("Reward not found or does not belong to the specified user");
             return new ResponseEntity<>(rewardNotFound, HttpStatus.NOT_FOUND);
-        }
-        if (Objects.equals(updatedReward.getMessage(), "Cannot update pointsNeeded for a reward in mission")) {
-            return new ResponseEntity<>(updatedReward, HttpStatus.CONFLICT);
         }
         updatedReward.setMessage("Reward updated successfully");
         return new ResponseEntity<>(updatedReward, HttpStatus.OK);

@@ -44,9 +44,6 @@ public class User {
     @JsonIgnore
     private Set<Mission> missions = new HashSet<>();
 
-    @OneToMany(mappedBy ="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonIgnore
-    private Set<UserReward> userRewards = new HashSet<>();
 
     public User(String firstName, String lastName, String username, String email) {
         this.firstName = firstName;
@@ -99,10 +96,6 @@ public class User {
     public void addChore(Chore chore) {
         this.chores.add(chore);
     }
-
-    public Set<UserReward> getUserRewards() { return this.userRewards; }
-
-    public void setUserRewards(Set<UserReward> userRewards) { this.userRewards = userRewards; }
 
     public Set<GenericResponseBody> getChoreResponses() {
         Set<GenericResponseBody> choreResponses= new HashSet<>();

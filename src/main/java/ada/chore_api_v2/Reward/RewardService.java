@@ -25,13 +25,15 @@ public class RewardService {
         Optional<User> foundUser = userRepository.findById(userId);
         if (foundUser.isPresent()) {
             rewardRequest.setUser(foundUser.get());
+//            System.out.println("Saving Reward:" +rewardRequest);
 
-            // Check if a reward with the same name already exists for the user
             if (rewardRepository.findByUserId(userId).stream()
-                    .anyMatch(reward -> reward.getName().equalsIgnoreCase(rewardRequest.getName()))) {
+                    .anyMatch(reward -> reward.getName().equalsIgnoreCase(rewardRequest.getName()) &&
+                            reward.getDescription().equalsIgnoreCase(rewardRequest.getDescription()) &&
+                            reward.getInMission().equals(rewardRequest.getInMission()) &&
+                            reward.getPointsNeeded().equals(rewardRequest.getPointsNeeded()))) {
                 return new GenericResponseBody("Reward already exists for this user");
             }
-
             RewardResponseBody newReward = new RewardResponseBody(rewardRepository.save(rewardRequest));
             newReward.setMessage("Reward created successfully");
             return newReward;
@@ -68,9 +70,9 @@ public class RewardService {
     }
 
     // Update a reward
-    public GenericResponseBody updateReward(int userId, int rewardId, Reward rewardRequest) {
+    public GenericResponseBody updateReward(int rewardId, Reward rewardRequest) {
         Optional<Reward> reward = rewardRepository.findById(rewardId);
-        if (reward.isPresent() && reward.get().getUser().getId() == userId) {
+        if (reward.isPresent()) {
             Reward updatedReward = reward.get();
             if (rewardRequest.getName() != null) {
                 updatedReward.setName(rewardRequest.getName());
@@ -78,16 +80,17 @@ public class RewardService {
             if (rewardRequest.getDescription() != null) {
                 updatedReward.setDescription(rewardRequest.getDescription());
             }
-            if (rewardRequest.getPointsNeeded() != null && !updatedReward.getInMission()) {
-                updatedReward.setPointsNeeded(rewardRequest.getPointsNeeded());
-            } else if (updatedReward.getInMission()) {
-                return new GenericResponseBody("Cannot update pointsNeeded for a reward in mission");
+            if (rewardRequest.getInMission() != null) {
+                updatedReward.setInMission(rewardRequest.getInMission());
             }
-            return new RewardResponseBody(rewardRepository.save(updatedReward));
+            if (rewardRequest.getPointsNeeded() != null) {
+                updatedReward.setPointsNeeded(rewardRequest.getPointsNeeded());
+            }
+            rewardRepository.save(updatedReward);
+            return new GenericResponseBody("Reward updated successfully");
         }
-        return new GenericResponseBody("Reward not found or does not belong to the specified user");
+        return new GenericResponseBody("Reward not found");
     }
-
     // Delete a reward
     public GenericResponseBody deleteRewardById(int rewardId) {
         Optional<Reward> reward = rewardRepository.findById(rewardId);
