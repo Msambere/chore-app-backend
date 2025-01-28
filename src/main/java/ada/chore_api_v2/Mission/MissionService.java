@@ -29,21 +29,26 @@ public class MissionService {
 
     // Create a Mission - Dev Only
     public GenericResponseBody createMission(int userId, Mission missionRequest) {
+        System.out.println("Start mission creation");
         Optional<User> foundUser = userRepository.findById(userId);
+        // Make a mission
         if (foundUser.isPresent()) {
             missionRequest.setUser(foundUser.get());
             Mission newMission = missionRepository.save(missionRequest);
+            System.out.println("Finish mission creation" + newMission.getId());
+           // Find Matching chores
             Set<Chore> choreSet = getMatchingChores(newMission.getRecurrence(), newMission.getCategory(), newMission.getTimeLimit(), newMission.getUser());
-
             if(choreSet.isEmpty()){
                 return new GenericResponseBody("No matching chores found");
             }
+            // create set of missionChoreResponseBodies
             Set<GenericResponseBody> missionChoreResponses = new HashSet<>();
             for (Chore chore : choreSet) {
                 MissionChore newMissionChore = new MissionChore(newMission,chore);
                 missionChoreRepository.save(newMissionChore);
                 missionChoreResponses.add(new MissionChoreResponseBody(newMissionChore));
             }
+            // Create missionResponseBody
             MissionResponseBody newMissionResponse = new MissionResponseBody(newMission);
             newMissionResponse.setMissionChores(missionChoreResponses);
             return newMissionResponse;
@@ -102,23 +107,27 @@ public class MissionService {
         ArrayList<Chore> choreOptions = null;
         // Filter chores by recurrence and category values
         if (recurrence != null && category != null) {
+            System.out.println("Matching by recurrence and category");
             choreOptions = choreRepository.findByRecurrenceAndCategoryAndUser(recurrence, category, user);
         }
         else if(recurrence == null && category != null) {
+            System.out.println("Matching by category");
             choreOptions = choreRepository.findByCategoryAndUser(category, user);
         }
         else if (recurrence != null) {
-            choreOptions = choreRepository.findByRecurrenceAndUser(category, user);
+            System.out.println("Matching by recurrence");
+            choreOptions = choreRepository.findByRecurrenceAndUser(recurrence, user);
         } else {
+            System.out.println("Returning all chores");
             choreOptions = choreRepository.findByUser(user);
         }
         // Sort List from oldest to newest
         Collections.sort(choreOptions, Comparator.comparing(Chore::getLastCompletedDate));
 
-        // Debugging: Print the sorted list <- all chores have same data
-//        for (Chore chore : choreOptions) {
-//            System.out.println(chore.getTitle() + ": " + chore.getLastCompletedDate());
-//        }
+//         Debugging: Print the sorted list <- all chores have same date
+        for (Chore chore : choreOptions) {
+            System.out.println(chore.getTitle() + ": " + chore.getLastCompletedDate());
+        }
 
         // Add sorted chores to set without exceeding timeLimit
         if (timeLimit == null) {

@@ -2,6 +2,7 @@ package ada.chore_api_v2.Mission;
 
 import ada.chore_api_v2.GenericResponseBody;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -10,7 +11,7 @@ public class MissionResponseBody extends GenericResponseBody {
     private String category;
     private String recurrence;
     private Integer totalUnredeemedPoints;
-    private LocalDateTime dateStarted;
+    private LocalDate dateStarted;
     private Long timeLimit;
     private Long timeElapsed;
     private Integer userId;
@@ -21,7 +22,7 @@ public class MissionResponseBody extends GenericResponseBody {
         this.category = mission.getCategory();
         this.recurrence = mission.getRecurrence();
         this.totalUnredeemedPoints = mission.getTotalUnredeemedPoints();
-        this.dateStarted = mission.getDateStarted();
+        this.dateStarted = mission.getDateStarted().toLocalDate();
         this.timeLimit = mission.getTimeLimit();
         this.timeElapsed = mission.getTimeElapsed();
         this.userId = mission.getUser().getId();
@@ -39,7 +40,7 @@ public class MissionResponseBody extends GenericResponseBody {
 
     public Long getTimeLimit() { return timeLimit; }
 
-    public LocalDateTime getDateStarted() { return dateStarted; }
+    public LocalDate getDateStarted() { return dateStarted; }
 
     public Long getTimeElapsed() { return timeElapsed; }
 

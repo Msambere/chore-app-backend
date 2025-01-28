@@ -60,7 +60,7 @@ public class SeedDB implements CommandLineRunner {
 
 
         // Create 3 Users
-        IntStream.range(2, 5).forEach(i -> {
+        IntStream.range(1, 4).forEach(i -> {
             User user = new User(
                     "User" + i,
                     "Last" + i,
@@ -104,7 +104,7 @@ public class SeedDB implements CommandLineRunner {
                 });
             });
         });
-        System.out.println("Database seeded with 3 users and 3 chores and 3 missions per user!");
+        System.out.println("Database seeded!");
     }
 }
 

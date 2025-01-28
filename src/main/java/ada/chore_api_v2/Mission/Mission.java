@@ -114,11 +114,9 @@ public class Mission {
 
     public Set<GenericResponseBody> getMissionChoreResponses() {
         Set<GenericResponseBody> MissionChoreResponses= new HashSet<>();
-        System.out.println("Length of mission.missionchoreList: " + missionChores.size());
         for (MissionChore missionChore : this.missionChores) {
             MissionChoreResponses.add(new MissionChoreResponseBody(missionChore));
         }
-        System.out.println("Mission chore responses length: " + MissionChoreResponses.size());
         return MissionChoreResponses;
     }
 }
