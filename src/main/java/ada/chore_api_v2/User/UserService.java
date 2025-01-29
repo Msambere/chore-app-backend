@@ -19,12 +19,12 @@ public class UserService {
 
     // Create a new user
     public GenericResponseBody createUser(User user) {
-        User foundUser = userRepository.findByUsername(user.getUsername());
-        if (foundUser != null) {
+        Optional<User> foundUser = userRepository.findByUsername(user.getUsername());
+        if (foundUser.isPresent()) {
             return null;
         }
-        userRepository.save(user);
-        UserResponseBody response = new UserResponseBody(userRepository.save(user));
+        User newUser = userRepository.save(user);
+        UserResponseBody response = new UserResponseBody(newUser);
         response.setMessage("User created successfully");
         return response;
     }
@@ -37,10 +37,23 @@ public class UserService {
         return userResponseBodies;
     }
 
-    // Get one user
+    // Get one user by Id
     public GenericResponseBody getUserById(int id){
         Optional<User> user = userRepository.findById(id);
-        return user.map(UserResponseBody::new).orElse(null);
+        if (user.isPresent()) {
+            return new UserResponseBody(user.get());
+        }
+        return new GenericResponseBody("User not found");
+//        return user.map(UserResponseBody::new).orElse(null);
+    }
+
+    //Get one user by username
+    public GenericResponseBody getUserByUsername(String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            return new UserResponseBody(user.get());
+        }
+        return new GenericResponseBody("User not found");
     }
 
     //Get chores of one user
