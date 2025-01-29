@@ -41,15 +41,26 @@ public class UserController {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    // Get one user
-    @GetMapping("/{userId}")
+    // Get one user by Id
+    @GetMapping("id/{userId}")
     public ResponseEntity<GenericResponseBody> getUserById(@PathVariable int userId) {
-        GenericResponseBody newUser = userService.getUserById(userId);
-        if (newUser == null) {
+        GenericResponseBody foundUser = userService.getUserById(userId);
+        if (foundUser == null) {
             GenericResponseBody userNotFound = new GenericResponseBody("User not found");
             return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<GenericResponseBody>(userService.getUserById(userId), HttpStatus.OK);
+        return new ResponseEntity<GenericResponseBody>(foundUser, HttpStatus.OK);
+    }
+
+    // Get one user by username
+    @GetMapping("/{username}")
+    public ResponseEntity<GenericResponseBody> getUserByUsername(@PathVariable String username) {
+        GenericResponseBody foundUser = userService.getUserByUsername(username);
+        if (foundUser == null) {
+            GenericResponseBody userNotFound = new GenericResponseBody("User not found");
+            return new ResponseEntity<>(userNotFound, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<GenericResponseBody>(foundUser, HttpStatus.OK);
     }
 
     //Get chores of one user
