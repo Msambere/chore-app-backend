@@ -49,14 +49,14 @@ public class Chore {
     @NotNull
     private Integer difficulty;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     @Valid
     private User user;
 
-    @OneToMany(mappedBy = "chore", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "chore", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<MissionChore> missionChores = new HashSet<>();
 
     public Chore() {}
@@ -107,14 +107,17 @@ public class Chore {
 
     public LocalDateTime getLastCompletedDate() {
        LocalDateTime latestDate = null;
-        for (MissionChore missionChore : missionChores) {
-            LocalDateTime missionDate = missionChore.getMission().getDateStarted();
-            if (latestDate == null){ latestDate = missionDate; }
-            else if (latestDate.isBefore(missionDate)) {latestDate = missionDate;}
-        }
-        if (latestDate == null) {
-            System.out.println("Chore has never been assigned to mission");
-            latestDate = LocalDateTime.now(); }
+       if (!missionChores.isEmpty()){
+           for (MissionChore missionChore : missionChores) {
+               LocalDateTime missionDate = missionChore.getMission().getDateStarted();
+               if (latestDate == null){ latestDate = missionDate; }
+               else if (latestDate.isBefore(missionDate)) {latestDate = missionDate;}
+           }
+       } else{
+//            System.out.println("Chore has never been assigned to mission");
+            latestDate = LocalDateTime.now();
+       }
+
         return latestDate;
     }
 }

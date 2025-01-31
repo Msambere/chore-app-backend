@@ -12,13 +12,13 @@ public class MissionChore {
     @EmbeddedId
     private MissionChoreId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("missionId")
     @JoinColumn(name = "mission_id", nullable = false)
     @JsonIgnore
     private Mission mission;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("choreId")
     @JoinColumn(name = "chore_id", nullable = false)
     @JsonIgnore
