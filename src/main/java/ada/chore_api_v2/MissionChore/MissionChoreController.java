@@ -37,6 +37,7 @@ public class MissionChoreController {
         return new ResponseEntity<>(missionChoreService.getAllMissionChores(), HttpStatus.OK);
     }
 
+
     // Update ChoreMission
     @PatchMapping
     public ResponseEntity<GenericResponseBody> updateMissionChore(
