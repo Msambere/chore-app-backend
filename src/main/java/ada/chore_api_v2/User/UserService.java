@@ -12,9 +12,11 @@ import java.util.Set;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final NewUserService newUserService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, NewUserService newUserService) {
         this.userRepository = userRepository;
+        this.newUserService = newUserService;
     }
 
     // Create a new user
@@ -23,8 +25,12 @@ public class UserService {
         if (foundUser.isPresent()) {
             return null;
         }
-        User newUser = userRepository.save(user);
+        User newUser = userRepository.saveAndFlush(user);
+        Set<GenericResponseBody> defaultRewards = newUserService.addDefaultRewardsToNewUser(newUser);
+        Set<GenericResponseBody> defaultChores = newUserService.addDefaultChoresToNewUser(newUser);
         UserResponseBody response = new UserResponseBody(newUser);
+        response.setChores(defaultChores);
+        response.setRewards(defaultRewards);
         response.setMessage("User created successfully");
         return response;
     }
@@ -41,7 +47,9 @@ public class UserService {
     public GenericResponseBody getUserById(int id){
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            return new UserResponseBody(user.get());
+            UserResponseBody response = new UserResponseBody(user.get());
+            response.setMessage("User found");
+            return response;
         }
         return new GenericResponseBody("User not found");
 //        return user.map(UserResponseBody::new).orElse(null);
@@ -51,7 +59,9 @@ public class UserService {
     public GenericResponseBody getUserByUsername(String username){
         Optional<User> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
-            return new UserResponseBody(user.get());
+            UserResponseBody response = new UserResponseBody(user.get());
+            response.setMessage("User found");
+            return response;
         }
         return new GenericResponseBody("User not found");
     }

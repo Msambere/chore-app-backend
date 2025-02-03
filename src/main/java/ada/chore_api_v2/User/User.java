@@ -103,6 +103,10 @@ public class User {
         this.chores.add(chore);
     }
 
+    public Set<Reward> getRewards() { return rewards; }
+
+    public void setRewards(Set<Reward> rewards) { this.rewards = rewards; }
+
     public Set<GenericResponseBody> getChoreResponses() {
         Set<GenericResponseBody> choreResponses= new HashSet<>();
         for(Chore chore : this.chores) {

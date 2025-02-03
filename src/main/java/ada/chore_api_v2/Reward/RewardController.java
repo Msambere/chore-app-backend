@@ -32,7 +32,6 @@ public class RewardController {
             BindingResult result) {
 
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }

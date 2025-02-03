@@ -114,7 +114,6 @@ public class Chore {
                else if (latestDate.isBefore(missionDate)) {latestDate = missionDate;}
            }
        } else{
-//            System.out.println("Chore has never been assigned to mission");
             latestDate = LocalDateTime.now();
        }
 
