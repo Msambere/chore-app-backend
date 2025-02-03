@@ -25,8 +25,6 @@ public class RewardService {
         Optional<User> foundUser = userRepository.findById(userId);
         if (foundUser.isPresent()) {
             rewardRequest.setUser(foundUser.get());
-//            System.out.println("Saving Reward:" +rewardRequest);
-
             if (rewardRepository.findByUserId(userId).stream()
                     .anyMatch(reward -> reward.getName().equalsIgnoreCase(rewardRequest.getName()) &&
                             reward.getDescription().equalsIgnoreCase(rewardRequest.getDescription()) &&
