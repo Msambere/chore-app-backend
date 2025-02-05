@@ -18,18 +18,15 @@ public class Reward {
     private Integer id;
 
     @Column(name = "name", nullable = false)
-    @NotBlank
     private String name;
 
     @Column(name = "description", nullable = true)
     private String description;
 
     @Column(name = "in_mission", nullable = false)
-    @NotBlank
     private Boolean inMission;
 
     @Column(name = "points_needed", nullable = false)
-    @NotNull
     private Integer pointsNeeded;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
