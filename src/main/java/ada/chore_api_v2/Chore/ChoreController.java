@@ -56,7 +56,7 @@ public class ChoreController {
 
     // Update chore
     @PatchMapping("chores/{choreId}")
-    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @RequestBody Chore choreRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if(result.hasErrors()) {
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
