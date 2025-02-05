@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 
 import java.util.Objects;
 import java.util.Set;
@@ -15,14 +16,14 @@ import java.util.Set;
 public class ChoreController {
     private final ChoreService choreService;
 
-    public ChoreController(ChoreService choreService) {
+    public ChoreController(ChoreService choreService, View error) {
         this.choreService = choreService;
     }
     // Create new Chore
     @PostMapping("/users/{userId}/chores")
     public ResponseEntity<GenericResponseBody> createChore(@PathVariable int userId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if (result.hasErrors()) {
-            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request. Make sure the title and description have at least 1 character.");
+            GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
         }
         GenericResponseBody newChore = choreService.createChore(userId,choreRequest);
@@ -55,7 +56,7 @@ public class ChoreController {
 
     // Update chore
     @PatchMapping("chores/{choreId}")
-    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @RequestBody Chore choreRequest, BindingResult result) {
         if(result.hasErrors()) {
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -65,9 +66,8 @@ public class ChoreController {
             GenericResponseBody choreNotFound = new GenericResponseBody("Chore not found");
             return new ResponseEntity<>(choreNotFound, HttpStatus.NOT_FOUND);
         }
-        if (updatedChore.getMessage().equals("Chore already exists")) {
-            GenericResponseBody choreAlreadyExists = new GenericResponseBody("Chore already exists");
-            return new ResponseEntity<>(choreAlreadyExists, HttpStatus.CONFLICT);
+        if(updatedChore.getMessage().equals("Chore already exists")) {
+            return new ResponseEntity<>(updatedChore, HttpStatus.CONFLICT);
         }
         return new ResponseEntity<GenericResponseBody>(updatedChore, HttpStatus.OK);
 

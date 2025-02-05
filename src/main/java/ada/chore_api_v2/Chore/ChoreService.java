@@ -24,16 +24,8 @@ public class ChoreService {
          Optional<User> foundUser =userRepository.findById(userId);
          if(foundUser.isPresent()) {
             choreRequest.setUser(foundUser.get());
-//             if(choreRepository.findByTitleAndUserAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty(choreRequest.getTitle(), choreRequest.getUser(), choreRequest.getDescription(), choreRequest.getRecurrence(), choreRequest.getCategory(), choreRequest.getDuration(),choreRequest.getDifficulty()) != null) {
-//                 return new GenericResponseBody("Chore already exists");
-             if (choreRepository.findByUserId(userId).stream()
-                     .anyMatch(chore -> chore.getTitle().equalsIgnoreCase(choreRequest.getTitle()) &&
-                             chore.getDescription().equalsIgnoreCase(choreRequest.getDescription()) &&
-                             chore.getRecurrence().equals(choreRequest.getRecurrence()) &&
-                             chore.getCategory().equals(choreRequest.getCategory()) &&
-                             chore.getDuration().equals(choreRequest.getDuration()) &&
-                             chore.getDifficulty().equals(choreRequest.getDifficulty()))) {
-                 return new GenericResponseBody("Chore already exists for this user");
+             if(choreRepository.findByTitleAndUser(choreRequest.getTitle(), choreRequest.getUser()) != null) {
+                 return new GenericResponseBody("Chore already exists");
              }
              ChoreResponseBody newChore = new ChoreResponseBody(choreRepository.save(choreRequest));
              newChore.setMessage("Chore created");
@@ -41,13 +33,12 @@ public class ChoreService {
          }
         return null;
     }
-    
 
     // Get all Chores
     public Set<GenericResponseBody> getAllChores() {
         Iterable<Chore> chores = choreRepository.findAll();
         Set<GenericResponseBody> choreResponseBodies = new HashSet<>();
-        chores.forEach(chore -> choreResponseBodies.add(new ChoreResponseBody(chore)));
+        chores.forEach(chore -> {choreResponseBodies.add(new ChoreResponseBody(chore));});
         return choreResponseBodies;
     }
 
@@ -81,17 +72,14 @@ public class ChoreService {
             if (choreRequest.getCategory() != null) {
                 updatedChore.setCategory(choreRequest.getCategory());
             }
-            if(choreRepository.findByTitleAndUserAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty(updatedChore.getTitle(), updatedChore.getUser(), updatedChore.getDescription(), updatedChore.getRecurrence(), updatedChore.getCategory(), updatedChore.getDuration(),updatedChore.getDifficulty()) != null) {
+            if (!choreRepository.findByTitleAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty( updatedChore.getTitle(), updatedChore.getDescription(), updatedChore.getRecurrence(), updatedChore.getCategory(),updatedChore.getDuration(), updatedChore.getDifficulty()).isEmpty()) {
                 return new GenericResponseBody("Chore already exists");
-            }else {
-                ChoreResponseBody newChoreResponse = new ChoreResponseBody(choreRepository.save(updatedChore));
-                newChoreResponse.setMessage("Chore updated successfully");
-                return newChoreResponse;
             }
-
+            ChoreResponseBody updatedChoreResponse = new ChoreResponseBody(choreRepository.save(updatedChore));
+            updatedChoreResponse.setMessage("Chore successfully updated");
+            return updatedChoreResponse;
         }
-
-            return null;
+        return null;
     }
 
     public GenericResponseBody deleteChoreById(Integer id) {

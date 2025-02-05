@@ -84,10 +84,14 @@ public class RewardService {
             if (rewardRequest.getPointsNeeded() != null) {
                 updatedReward.setPointsNeeded(rewardRequest.getPointsNeeded());
             }
-            rewardRepository.save(updatedReward);
-            return new GenericResponseBody("Reward updated successfully");
+            if (!rewardRepository.findByNameAndDescriptionAndInMissionAndPointsNeeded(updatedReward.getName(), updatedReward.getDescription(), updatedReward.getInMission(), updatedReward.getPointsNeeded()).isEmpty()){
+                return new GenericResponseBody("Reward already exists for this user");
+            }
+            RewardResponseBody updatedRewardResponse = new RewardResponseBody( rewardRepository.save(updatedReward));
+            updatedRewardResponse.setMessage("Reward updated successfully");
+            return updatedRewardResponse;
         }
-        return new GenericResponseBody("Reward not found");
+        return null;
     }
 
     // Delete a reward

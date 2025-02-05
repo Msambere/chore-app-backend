@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public interface ChoreRepository extends JpaRepository<Chore, Integer> {
-    Chore findByTitleAndUserAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty(String title, User user, String description, String recurrence, String category, Long duration, int difficulty);
+    Chore findByTitleAndUser(String title, User user);
     ArrayList<Chore> findByRecurrenceAndCategoryAndUser(String recurrence, String category, User user);
     ArrayList<Chore> findByCategoryAndUser(String category, User user);
     ArrayList<Chore> findByRecurrenceAndUser(String recurrence, User user);
     ArrayList<Chore> findByUser(User user);
-    Set<Chore> findByUserId(Integer userId);
-
+    Set<Chore> findByTitleAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty(String title, String description, String recurrence, String category, Long duration, Integer difficulty);
 }
