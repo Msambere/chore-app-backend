@@ -66,7 +66,9 @@ public class ChoreController {
             GenericResponseBody choreNotFound = new GenericResponseBody("Chore not found");
             return new ResponseEntity<>(choreNotFound, HttpStatus.NOT_FOUND);
         }
-        updatedChore.setMessage("Chore updated successfully");
+        if(updatedChore.getMessage().equals("Chore already exists")) {
+            return new ResponseEntity<>(updatedChore, HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<GenericResponseBody>(updatedChore, HttpStatus.OK);
 
     }
