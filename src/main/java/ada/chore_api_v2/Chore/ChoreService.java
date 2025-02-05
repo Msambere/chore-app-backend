@@ -24,8 +24,16 @@ public class ChoreService {
          Optional<User> foundUser =userRepository.findById(userId);
          if(foundUser.isPresent()) {
             choreRequest.setUser(foundUser.get());
-             if(choreRepository.findByTitleAndUserAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty(choreRequest.getTitle(), choreRequest.getUser(), choreRequest.getDescription(), choreRequest.getRecurrence(), choreRequest.getCategory(), choreRequest.getDuration(),choreRequest.getDifficulty()) != null) {
-                 return new GenericResponseBody("Chore already exists");
+//             if(choreRepository.findByTitleAndUserAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty(choreRequest.getTitle(), choreRequest.getUser(), choreRequest.getDescription(), choreRequest.getRecurrence(), choreRequest.getCategory(), choreRequest.getDuration(),choreRequest.getDifficulty()) != null) {
+//                 return new GenericResponseBody("Chore already exists");
+             if (choreRepository.findByUserId(userId).stream()
+                     .anyMatch(chore -> chore.getTitle().equalsIgnoreCase(choreRequest.getTitle()) &&
+                             chore.getDescription().equalsIgnoreCase(choreRequest.getDescription()) &&
+                             chore.getRecurrence().equals(choreRequest.getRecurrence()) &&
+                             chore.getCategory().equals(choreRequest.getCategory()) &&
+                             chore.getDuration().equals(choreRequest.getDuration()) &&
+                             chore.getDifficulty().equals(choreRequest.getDifficulty()))) {
+                 return new GenericResponseBody("Chore already exists for this user");
              }
              ChoreResponseBody newChore = new ChoreResponseBody(choreRepository.save(choreRequest));
              newChore.setMessage("Chore created");
@@ -33,6 +41,7 @@ public class ChoreService {
          }
         return null;
     }
+    
 
     // Get all Chores
     public Set<GenericResponseBody> getAllChores() {

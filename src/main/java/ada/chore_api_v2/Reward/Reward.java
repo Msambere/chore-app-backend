@@ -4,6 +4,8 @@ import ada.chore_api_v2.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -16,15 +18,18 @@ public class Reward {
     private Integer id;
 
     @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
 
     @Column(name = "description", nullable = true)
     private String description;
 
     @Column(name = "in_mission", nullable = false)
+    @NotBlank
     private Boolean inMission;
 
     @Column(name = "points_needed", nullable = false)
+    @NotNull
     private Integer pointsNeeded;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
