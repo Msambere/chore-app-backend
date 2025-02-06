@@ -97,7 +97,9 @@ public class RewardController {
             GenericResponseBody rewardNotFound = new GenericResponseBody("Reward not found or does not belong to the specified user");
             return new ResponseEntity<>(rewardNotFound, HttpStatus.NOT_FOUND);
         }
-        updatedReward.setMessage("Reward updated successfully");
+        if (updatedReward.getMessage().equals("Reward already exists for this user")) {
+            return new ResponseEntity<>(updatedReward, HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(updatedReward, HttpStatus.OK);
     }
 

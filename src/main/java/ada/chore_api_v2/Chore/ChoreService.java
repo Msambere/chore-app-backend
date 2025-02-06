@@ -72,7 +72,12 @@ public class ChoreService {
             if (choreRequest.getCategory() != null) {
                 updatedChore.setCategory(choreRequest.getCategory());
             }
-            return new ChoreResponseBody(choreRepository.save(updatedChore));
+            if (!choreRepository.findByTitleAndDescriptionAndRecurrenceAndCategoryAndDurationAndDifficulty( updatedChore.getTitle(), updatedChore.getDescription(), updatedChore.getRecurrence(), updatedChore.getCategory(),updatedChore.getDuration(), updatedChore.getDifficulty()).isEmpty()) {
+                return new GenericResponseBody("Chore already exists");
+            }
+            ChoreResponseBody updatedChoreResponse = new ChoreResponseBody(choreRepository.save(updatedChore));
+            updatedChoreResponse.setMessage("Chore successfully updated");
+            return updatedChoreResponse;
         }
         return null;
     }

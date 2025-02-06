@@ -56,7 +56,7 @@ public class ChoreController {
 
     // Update chore
     @PatchMapping("chores/{choreId}")
-    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @RequestBody Chore choreRequest, BindingResult result) {
+    public ResponseEntity<GenericResponseBody> updateChore(@PathVariable Integer choreId, @Valid @RequestBody Chore choreRequest, BindingResult result) {
         if(result.hasErrors()) {
             GenericResponseBody errorResponse = new GenericResponseBody("Invalid request body");
             return new ResponseEntity<GenericResponseBody>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -66,7 +66,9 @@ public class ChoreController {
             GenericResponseBody choreNotFound = new GenericResponseBody("Chore not found");
             return new ResponseEntity<>(choreNotFound, HttpStatus.NOT_FOUND);
         }
-        updatedChore.setMessage("Chore updated successfully");
+        if(updatedChore.getMessage().equals("Chore already exists")) {
+            return new ResponseEntity<>(updatedChore, HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<GenericResponseBody>(updatedChore, HttpStatus.OK);
 
     }
