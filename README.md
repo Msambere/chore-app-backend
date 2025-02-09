@@ -2,49 +2,20 @@
 
 ChoreChamp is a full stack application designed to help users manage their chores, missions, and rewards efficiently. This Spring Boot API provides a robust backend for creating, updating, and tracking household tasks and personal goals.
 
-The ChoreChampAPI offers a wide range of features to streamline task management and encourage productivity. Users can create personalized chore lists, set up missions (groups of related chores), and earn rewards for completing tasks. The application is built with scalability and performance in mind, utilizing Spring Boot's powerful features and a PostgreSQL database for data persistence.
+## ER Diagram
+![ER Diagram](Capstone ER Diagram V3.png)
 
-## Repository Structure
 
-```
-.
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── ada
-    │   │       └── chore_api_v2
-    │   │           ├── Chore
-    │   │           ├── ChoreApiV2Application.java
-    │   │           ├── ConnectionTest
-    │   │           ├── Demo
-    │   │           ├── GenericResponseBody.java
-    │   │           ├── Mission
-    │   │           ├── MissionChore
-    │   │           ├── Reward
-    │   │           └── User
-    │   └── resources
-    │       ├── application.properties
-    │       └── db
-    │           └── migration
-    │               └── update-schema.sql
-    └── test
-        └── java
-            └── ada
-                └── chore_api_v2
-                    └── ChoreApiV2ApplicationTests.java
-```
 
-### Key Files:
-- `ChoreApiV2Application.java`: The main entry point for the Spring Boot application.
+### Key Files and Folders:
+- `ada.chore_api_v2`: Holds the folders for each entity. Each entity folder contains its class, controller, service,
+repository and response body file.
 - `pom.xml`: Maven project configuration file.
 - `application.properties`: Configuration file for Spring Boot application settings.
-- `env.properties`: Holds and protects environmental variables.
+- `ChoreApiV2Application.java`: The main entry point for the Spring Boot application.
 
 ### Important Integration Points:
-- `DatabaseConfig.java`: Configures the database connection using HikariCP.
+- `DatabaseConfig.java`: Configures a deployed database connection using HikariCP.
 - Controller classes (e.g., `UserController.java`, `ChoreController.java`): Define RESTful API endpoints.
 - Repository interfaces: Provide data access methods for interacting with the database.
 
@@ -144,5 +115,17 @@ Client <-> Controller <-> Service <-> Repository <-> Database
 
 Note: The application uses Spring Data JPA for database interactions, which simplifies data access and management.
 
-## ER Diagram
-![ER Diagram](Capstone ER Diagram V3.png)
+## 🚀 Contact Us
+### Amber Edwards - Fullstack SWE
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/amber-edwards-swe/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Msambere)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:a.r.a.edwards@gmail.com)
+### Anh Tran - Fullstack SWE
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/anhtran077/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/momofAnAl)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:anhtr077@gmail.com)
+
+### Salma Anany - Fullstack SWE
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/salma-anany/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SalmaAnany)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:salmayousry5@gmail.com)
