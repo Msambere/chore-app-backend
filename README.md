@@ -17,7 +17,7 @@ ChoreChamp is a full stack application designed to help users manage their chore
 This Spring Boot API provides a robust backend for creating, updating, and tracking household tasks and personal goals.
 
 ## ER Diagram
-![ER Diagram](./Capstone%20ER%20Diagram%20V3.png)
+![ER Diagram](./Capstone_ER_Diagram_V3.png)
 
 ## Demo
 ```
