@@ -1,8 +1,8 @@
-# ChoreChamp: A Spring Boot API for Chore and Mission Management
+# ChoreChampAPI: A Spring Boot API for Chore and Mission Management
 
-ChoreChamp is a comprehensive Spring Boot API designed to help users manage their chores, missions, and rewards efficiently. This application provides a robust backend for creating, updating, and tracking household tasks and personal goals.
+ChoreChamp is a full stack application designed to help users manage their chores, missions, and rewards efficiently. This Spring Boot API provides a robust backend for creating, updating, and tracking household tasks and personal goals.
 
-The ChoreChamp API offers a wide range of features to streamline task management and encourage productivity. Users can create personalized chore lists, set up missions (groups of related chores), and earn rewards for completing tasks. The application is built with scalability and performance in mind, utilizing Spring Boot's powerful features and a PostgreSQL database for data persistence.
+The ChoreChampAPI offers a wide range of features to streamline task management and encourage productivity. Users can create personalized chore lists, set up missions (groups of related chores), and earn rewards for completing tasks. The application is built with scalability and performance in mind, utilizing Spring Boot's powerful features and a PostgreSQL database for data persistence.
 
 ## Repository Structure
 
@@ -41,7 +41,7 @@ The ChoreChamp API offers a wide range of features to streamline task management
 - `ChoreApiV2Application.java`: The main entry point for the Spring Boot application.
 - `pom.xml`: Maven project configuration file.
 - `application.properties`: Configuration file for Spring Boot application settings.
-- `update-schema.sql`: SQL script for database schema updates.
+- `env.properties`: Holds and protects environmental variables.
 
 ### Important Integration Points:
 - `DatabaseConfig.java`: Configures the database connection using HikariCP.
@@ -58,27 +58,29 @@ Prerequisites:
 - PostgreSQL 12 or later
 
 Steps:
-1. Clone the repository:
+1. Clone the repository and open project in an IDE:
    ```
    git clone <repository-url>
    cd chore-api-v2
    ```
 
-2. Configure the database connection in `src/main/resources/application.properties`:
+2. Create a postgresSQL database for the api. 
+3. Create a `env.properties` file in the project root folder, add it to the `.gitignore`, and add the following content:
    ```
-   spring.datasource.url=jdbc:postgresql://<host>:<port>/<database>
-   spring.datasource.username=<username>
-   spring.datasource.password=<password>
+   DATABASE_URL=jdbc:postgresql://<host>:<port>/<database>
+   SPRING_DATASOURCE_USERNAME=<username>
+   SPRING_DATASOURCE_PASSWORD=<password>
+   SPRING_HIBERNATE_DDL_AUTO=<update | create-drop>
    ```
 
 3. Build the project:
    ```
-   mvn clean install
+   ./mvnw clean install
    ```
 
 4. Run the application:
    ```
-   mvn spring-boot:run
+   ./mvnw spring-boot:run
    ```
 
 ### Getting Started
@@ -114,35 +116,16 @@ Once the application is running, you can interact with the API using HTTP reques
    GET /users/{userId}/chores
    ```
 
-### Configuration Options
-
-The application can be configured using the `application.properties` file. Some important properties include:
-
-- `server.port`: The port on which the application runs (default: 8080)
-- `spring.jpa.hibernate.ddl-auto`: Database schema generation strategy
-- `logging.level.root`: Logging level for the application
-
-### Testing & Quality
-
-To run the tests, execute:
-```
-mvn test
-```
-
 ### Troubleshooting
 
 1. Database connection issues:
    - Ensure PostgreSQL is running and accessible.
-   - Verify the connection details in `application.properties`.
+   - Verify the connection details in `env.properties`.
    - Check the application logs for specific error messages.
 
 2. API errors:
    - Verify the request format and payload.
    - Check the response status code and error message.
-   - Enable debug logging for more detailed information:
-     ```
-     logging.level.ada.chore_api_v2=DEBUG
-     ```
 
 ## Data Flow
 
@@ -160,3 +143,6 @@ Client <-> Controller <-> Service <-> Repository <-> Database
 ```
 
 Note: The application uses Spring Data JPA for database interactions, which simplifies data access and management.
+
+## ER Diagram
+![ER Diagram](Capstone ER Diagram V3.png)
