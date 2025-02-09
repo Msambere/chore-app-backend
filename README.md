@@ -13,10 +13,11 @@
 [![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
 [![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black)](https://prettier.io/)
 
-ChoreChamp is a full stack application designed to help users manage their chores, missions, and rewards efficiently. This Spring Boot API provides a robust backend for creating, updating, and tracking household tasks and personal goals.
+ChoreChamp is a full stack application designed to help users manage their chores, missions, and rewards efficiently. 
+This Spring Boot API provides a robust backend for creating, updating, and tracking household tasks and personal goals.
 
 ## ER Diagram
-![ER Diagram](Capstone ER Diagram V3.png)
+![ER Diagram](./Capstone_ER_Diagram_V3.png)
 
 ## Demo
 ```
