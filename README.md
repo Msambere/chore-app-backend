@@ -1,25 +1,33 @@
 # ChoreChampAPI: A Spring Boot API for Chore and Mission Management
+[![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)](https://www.java.com/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-007396?style=for-the-badge&logo=java&logoColor=white)
+![JUnit](https://img.shields.io/badge/JUnit-25A162?style=for-the-badge&logo=java&logoColor=white)
+![REST API](https://img.shields.io/badge/REST_API-FF6F61?style=for-the-badge&logo=api&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white)
+![JDBC](https://img.shields.io/badge/JDBC-007396?style=for-the-badge&logo=java&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+[![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
+[![Prettier](https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black)](https://prettier.io/)
 
 ChoreChamp is a full stack application designed to help users manage their chores, missions, and rewards efficiently. This Spring Boot API provides a robust backend for creating, updating, and tracking household tasks and personal goals.
 
 ## ER Diagram
 ![ER Diagram](Capstone ER Diagram V3.png)
 
-
-
+## Demo
+```
+link: <>
+```
 ### Key Files and Folders:
 - `ada.chore_api_v2`: Holds the folders for each entity. Each entity folder contains its class, controller, service,
-repository and response body file.
+  repository and response body file.
 - `pom.xml`: Maven project configuration file.
 - `application.properties`: Configuration file for Spring Boot application settings.
 - `ChoreApiV2Application.java`: The main entry point for the Spring Boot application.
-
-### Important Integration Points:
-- `DatabaseConfig.java`: Configures a deployed database connection using HikariCP.
-- Controller classes (e.g., `UserController.java`, `ChoreController.java`): Define RESTful API endpoints.
-- Repository interfaces: Provide data access methods for interacting with the database.
-
-## Usage Instructions
 
 ### Installation
 
@@ -31,72 +39,37 @@ Prerequisites:
 Steps:
 1. Clone the repository and open project in an IDE:
    ```
-   git clone <repository-url>
-   cd chore-api-v2
+     git clone <https://github.com/Msambere/chore-app-backend.git>
    ```
 
-2. Create a postgresSQL database for the api. 
+2. Create a postgresSQL database for the api.
 3. Create a `env.properties` file in the project root folder, add it to the `.gitignore`, and add the following content:
    ```
    DATABASE_URL=jdbc:postgresql://<host>:<port>/<database>
    SPRING_DATASOURCE_USERNAME=<username>
    SPRING_DATASOURCE_PASSWORD=<password>
    SPRING_HIBERNATE_DDL_AUTO=<update | create-drop>
-   ```
 
-3. Build the project:
+
+### Getting Started
+1. Build the project:
    ```
    ./mvnw clean install
    ```
 
-4. Run the application:
+2. Run the application:
    ```
    ./mvnw spring-boot:run
    ```
 
-### Getting Started
 
-Once the application is running, you can interact with the API using HTTP requests. Here are some example endpoints:
+Once the application is running, you can interact with the API using HTTP requests.
+Here are some example endpoints:
 
-1. Create a new user:
-   ```
-   POST /users
-   {
-     "username": "johndoe",
-     "firstName": "John",
-     "lastName": "Doe",
-     "email": "john@example.com"
-   }
-   ```
+```
+https://docs.google.com/document/d/1jNC8aHqeOFAqd8awg3LWDdijawY-Kyjb_RuqoFddtTw/edit?tab=t.0
+```
 
-2. Create a new chore for a user:
-   ```
-   POST /users/{userId}/chores
-   {
-     "title": "Clean Kitchen",
-     "description": "Wipe counters and mop floor",
-     "recurrence": "Daily",
-     "category": "Kitchen",
-     "duration": 30,
-     "difficulty": 2
-   }
-   ```
-
-3. Get all chores for a user:
-   ```
-   GET /users/{userId}/chores
-   ```
-
-### Troubleshooting
-
-1. Database connection issues:
-   - Ensure PostgreSQL is running and accessible.
-   - Verify the connection details in `env.properties`.
-   - Check the application logs for specific error messages.
-
-2. API errors:
-   - Verify the request format and payload.
-   - Check the response status code and error message.
 
 ## Data Flow
 
