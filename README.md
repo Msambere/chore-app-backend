@@ -34,10 +34,13 @@ Steps:
 1. Clone the repository:
    ```
    git clone <https://github.com/Msambere/chore-app-backend.git>
+   ```
+2. Navigate to the project repository
+   ```
    cd chore-api-backend
    ```
 
-2. Configure the database connection in `chore-app-backend/target/env.properties`:
+3. Configure the database connection in `chore-app-backend/target/env.properties`:
    ```
    DATABASE_URL=jdbc:postgresql://<host>:<port>/<database>
    SPRING_DATASOURCE_USERNAME=<username>
@@ -45,19 +48,20 @@ Steps:
    SPRING_HIBERNATE_DDL_AUTO=create-drop OR update
    ```
 
-3. Build the project:
+### Getting Started
+
+1. Build the project:
    ```
    Build - Build Project/Rebuild Project
    ```
 
-4. Run the application:
+2. Run the application:
    ```
    Play Button or ^R
    ```
 
-### Getting Started
-
-Once the application is running, you can interact with the API using HTTP requests. Here are some example endpoints:
+Once the application is running, you can interact with the API using HTTP requests. 
+Here are some example endpoints:
 
 ```
 https://docs.google.com/document/d/1jNC8aHqeOFAqd8awg3LWDdijawY-Kyjb_RuqoFddtTw/edit?tab=t.0
