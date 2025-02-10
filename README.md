@@ -18,10 +18,6 @@ This Spring Boot API provides a robust backend for creating, updating, and track
 ## ER Diagram
 ![ER Diagram](./Capstone_ER_Diagram_V3.png)
 
-## Demo
-```
-link: <>
-```
 ### Key Files and Folders:
 - `ada.chore_api_v2`: Holds the folders for each entity. Each entity folder contains its class, controller, service,
   repository and response body file.
